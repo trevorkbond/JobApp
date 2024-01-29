@@ -13,15 +13,24 @@
 
     <main>
         <h1>Sign in</h1>
-        <p>
-            Sign in to JobApp or create an account to track your job applications
-        </p>
+        <p>Sign in or create an account to track your job applications</p>
+        <form method="get" action="jobs.html">
+            <label for="username"></label>
+            <input type="text" id="username" placeholder="Username or email">
+            <br>
+            <label for="userpassword"></label>
+            <input type="password" id="userpassword" placeholder="Password">
+            <br>
+            <button type="submit">Login</button>
+        </form>
         <hr>
     </main>
 
     <footer>
         <p>Created by Trevor Bond</p>
-        <p>Link to <a href="https://github.com/trevorkbond/startup">GitHub</a></p>
+        <p>Link to <a href="https://github.com/trevorkbond/startup" target="_blank">GitHub
+            <img src="./icons/new_tab.svg" width="15px"/>
+        </a></p>
     </footer>
 
 </body>
