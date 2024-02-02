@@ -8,6 +8,8 @@
 <body>
     <header>
         <h1>JobApp</h1>
+        <button onclick="showAddJob()">Add a Job</button>
+        <button onclick="showShareJob()">Share a Job</button>
     <hr>
     </header>
 
@@ -18,10 +20,35 @@
                 <td>Company</td>
                 <td>Status</td>
                 <td>Due Date</td>
+                <td>Link</td>
                 <td>Notes</td>
                 <td>Contact</td>
             </tr>
         </table>
+        <form method="get" style="display: none;" id="jobForm">
+            <label for="title"></label>
+            <input type="text" id="title" placeholder="Job title">
+            <br>
+            <label for="company"></label>
+            <input type="text" id="company" placeholder="Company">
+            <br>
+            <label for="status"></label>
+            <input type="text" id="status" placeholder="Application status">
+            <br>
+            <label for="date"></label>
+            <input type="date" id="date" placeholder="Due Date">
+            <br>
+            <label for="link"></label>
+            <input type="url" id="link" placeholder="Link to posting">
+            <br>
+            <label for="note"></label>
+            <input type="text" id="note" placeholder="Other notes">
+            <br>
+            <label for="contact"></label>
+            <input type="email" id="contact" placeholder="Point of contact">
+            <br>
+            <button type="submit">Add job</button>
+        </form>
         <a href="./index.html">
             <button>Sign out</button>
         </a>
@@ -33,6 +60,25 @@
             <img src="./icons/new_tab.svg" width="15px"/>
         </a></p>
     </footer>
+
+    <script>
+        function showAddJob() {
+            var form = document.getElementById("jobForm");
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+        function showShareJob() {
+            var list = document.getElementById("jobList");
+            if (list.style.display === "none") {
+                list.style.display = "block";
+            } else {
+                list.style.display = "none";
+            }
+        }
+    </script>
 
 </body>
 </html>
