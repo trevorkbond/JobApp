@@ -54,9 +54,10 @@ I built out the basic structure of JobApp in HTML. Here is a list of things that
 - Inluded an image in the header of each page
 - Added placeholder login fields using a form
 - Added placeholder database information with a table on the jobs page
-- Used simple JavaScript to add minor functionality for showing forms to add a job or share a job
 - Added a placedholder aside field to display a notification (will be implementing live notifications with WebSocket)
 - The sign in button links to the jobs page, and the sign out button links back to the login page
+- `add.html`, `share.html`, and `delete.html` are placeholders for interactive elements that will be displayed when users want to perform these actions. The buttons for subimitting these actions on the respective pages all link back to `jobs.html`
 - Updated my [HTML notes](./notes/html-deliverable.md) with things I learned in the process
+- In `add.html`, there is a placehoder for the user to indicate if they'd like to add a reminder to apply for the job they're adding to Google Calendar. This will use the Google Calendar API to create an event in their calendar in advance of the application deadline as a reminder to apply
 
 **Note** - I updated my link so that the doman name [jobapp.click](https://jobapp.click) routes to my main page while [startup.jobapp.click](https://startup.jobapp.click) routes to the default page we were provided with. 
