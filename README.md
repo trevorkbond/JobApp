@@ -58,3 +58,5 @@ I built out the basic structure of JobApp in HTML. Here is a list of things that
 - Added a placedholder aside field to display a notification (will be implementing live notifications with WebSocket)
 - The sign in button links to the jobs page, and the sign out button links back to the login page
 - Updated my [HTML notes](./notes/html-deliverable.md) with things I learned in the process
+
+**Note** - I updated my link so that the doman name [jobapp.click](https://jobapp.click) routes to my main page while [startup.jobapp.click](https://startup.jobapp.click) routes to the default page we were provided with. 

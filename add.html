@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobApp</title>
+</head>
+<body>
+    <header>
+        <h1>JobApp</h1>
+        <img src="icons/pen-and-paper.jpg" alt="Pen and Paper" width="150px">
+    <hr>
+    </header>
+
+    <footer>
+        <p>Created by Trevor Bond</p>
+        <p>Link to <a href="https://github.com/trevorkbond/startup" target="_blank">GitHub
+            <img src="./icons/new_tab.svg" width="15px"/>
+        </a></p>
+    </footer>
+
+    <main>
+        <h2>Fill out job details and select "Add job"</h2>
+        <form method="get" action="./jobs.html">
+            <label for="title">Job title</label>
+            <input type="text" id="title" required>
+            <br>
+            <label for="company">Company</label>
+            <input type="text" id="company" required>
+            <br>
+            <label for="status">Application status</label>
+            <input type="text" id="status">
+            <br>
+            <label for="date">Due date</label>
+            <input type="date" id="date">
+            <br>
+            <label for="link">Link to posting</label>
+            <input type="url" id="link">
+            <br>
+            <label for="contact">Point of contact</label>
+            <input type="email" id="contact">
+            <br>
+            <label for="note">Other notes</label>
+            <textarea id="note"></textarea>
+            <br>
+            <button type="submit">Add job</button>
+    </form>
+    </main>
+
+</body>
+</html>

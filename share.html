@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobApp</title>
+</head>
+<body>
+    <header>
+        <h1>JobApp</h1>
+        <img src="icons/pen-and-paper.jpg" alt="Pen and Paper" width="150px">
+    <hr>
+    </header>
+
+    <footer>
+        <p>Created by Trevor Bond</p>
+        <p>Link to <a href="https://github.com/trevorkbond/startup" target="_blank">GitHub
+            <img src="./icons/new_tab.svg" width="15px"/>
+        </a></p>
+    </footer>
+
+    <main>
+        <h2>Share a job with the specified user</h2>
+        <form method="get" action="jobs.html">
+            <label for="radio1">QA Engineer Intern</label>
+            <input type="radio" name="radio" required>
+            <br>
+            <label for="radio2">Software Developer, Intern</label>
+            <input type="radio" name="radio" required>
+            <br>
+            <label for="userToShare"></label>
+            <input type="text" placeholder="User to share to" required>
+            <br>
+            <button type="submit">Share job</button>
+        </form>
+    </main>
+
+</body>
+</html>

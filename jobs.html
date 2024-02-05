@@ -10,8 +10,9 @@
         <h1>JobApp</h1>
         <img src="icons/pen-and-paper.jpg" alt="Pen and Paper" width="150px">
         <h2>Welcome, user</h2>
-        <button onclick="showAddJob()">Add a Job</button>
-        <button onclick="showShareJob()">Share a Job</button>
+        <a href="./add.html"><button>Add a Job</button></a><br>
+        <a href="./share.html"><button>Share a Job</button></a><br>
+        <a href="./delete.html"><button>Delete a Job</button></a><br>
     <hr>
     </header>
 
@@ -51,42 +52,6 @@
             </tbody>
             <!--End placeholder jobs-->
         </table>
-        <form method="get" style="display: none;" id="jobForm">
-            <label for="title">Job title</label>
-            <input type="text" id="title" required>
-            <br>
-            <label for="company">Company</label>
-            <input type="text" id="company" required>
-            <br>
-            <label for="status">Application status</label>
-            <input type="text" id="status">
-            <br>
-            <label for="date">Due date</label>
-            <input type="date" id="date">
-            <br>
-            <label for="link">Link to posting</label>
-            <input type="url" id="link">
-            <br>
-            <label for="contact">Point of contact</label>
-            <input type="email" id="contact">
-            <br>
-            <label for="note">Other notes</label>
-            <textarea id="note"></textarea>
-            <br>
-            <button type="submit">Add job</button>
-        </form>
-        <form method="get" style="display: none;", id="jobList">
-            <label for="radio1">QA Engineer Intern</label>
-            <input type="radio" name="radio">
-            <br>
-            <label for="radio2">Software Developer, Intern</label>
-            <input type="radio" name="radio">
-            <br>
-            <label for="userToShare"></label>
-            <input type="text" placeholder="User to share to" required>
-            <br>
-            <button type="submit">Share job</button>
-        </form>
         <a href="./index.html">
             <button>Sign out</button>
         </a>
@@ -105,25 +70,6 @@
             <img src="./icons/new_tab.svg" width="15px"/>
         </a></p>
     </footer>
-
-    <script>
-        function showAddJob() {
-            var form = document.getElementById("jobForm");
-            if (form.style.display === "none") {
-                form.style.display = "block";
-            } else {
-                form.style.display = "none";
-            }
-        }
-        function showShareJob() {
-            var list = document.getElementById("jobList");
-            if (list.style.display === "none") {
-                list.style.display = "block";
-            } else {
-                list.style.display = "none";
-            }
-        }
-    </script>
 
 </body>
 </html>
