@@ -46,4 +46,15 @@ Here's a simple sequence diagram of how users will interact with the server.
 - **WebSocket** - Server sends real-time notifications of when jobs are shared with them
 - **React** - Application ported using React framework. May breakdown project into components
 
+## HTML Deliverable
 
+I built out the basic structure of JobApp in HTML. Here is a list of things that I did:
+
+- Built out page structure for login and main page using headers, main sections, footers, and asides
+- Inluded an image in the header of each page
+- Added placeholder login fields using a form
+- Added placeholder database information with a table on the jobs page
+- Used simple JavaScript to add minor functionality for showing forms to add a job or share a job
+- Added a placedholder aside field to display a notification (will be implementing live notifications with WebSocket)
+- The sign in button links to the jobs page, and the sign out button links back to the login page
+- Updated my [HTML notes](./notes/html-deliverable.md) with things I learned in the process
