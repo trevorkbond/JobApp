@@ -26,6 +26,7 @@
                     <th>Notes</th>
                 </tr>
             </thead>
+            <!--Begin placeholder jobs-->
             <tbody>
                 <tr>
                     <td>QA Engineer Intern</td>
@@ -46,13 +47,14 @@
                     <td></td>
                 </tr>
             </tbody>
+            <!--End placeholder jobs-->
         </table>
         <form method="get" style="display: none;" id="jobForm">
             <label for="title">Job title</label>
-            <input type="text" id="title">
+            <input type="text" id="title" required>
             <br>
             <label for="company">Company</label>
-            <input type="text" id="company">
+            <input type="text" id="company" required>
             <br>
             <label for="status">Application status</label>
             <input type="text" id="status">
@@ -70,6 +72,18 @@
             <textarea id="note"></textarea>
             <br>
             <button type="submit">Add job</button>
+        </form>
+        <form method="get" style="display: none;", id="jobList">
+            <label for="radio1">QA Engineer Intern</label>
+            <input type="radio" name="radio">
+            <br>
+            <label for="radio2">Software Developer, Intern</label>
+            <input type="radio" name="radio">
+            <br>
+            <label for="userToShare"></label>
+            <input type="text" placeholder="User to share to" required>
+            <br>
+            <button type="submit">Share job</button>
         </form>
         <a href="./index.html">
             <button>Sign out</button>
