@@ -9,24 +9,22 @@
 </head>
 <body>
     <header>
-        <h1>JobApp</h1>
-        <!-- <img src="icons/pen-and-paper.jpg" alt="Pen and Paper" width="150px"> -->
-        
+        <h1 id="header-override-jobs">JobApp</h1>        
     </header>
 
     <main>
-        <div class="header-buttons-container">
-            <div class="padding-button"><a href="./add.html"><button class="btn btn-primary btn-lg">Add a Job</button></a></div>
-            <div class="padding-button"><a href="./share.html"><button class="btn btn-primary btn-lg">Share</button></a></div>
-            <div class="padding-button"><a href="./delete.html"><button class="btn btn-primary btn-lg">Delete</button></a></div>
+        <div class="buttons-container">
+            <div class="padding-button"><a href="./add.html"><button class="btn btn-primary btn-lg btn-dark">Add a Job</button></a></div>
+            <div class="padding-button"><a href="./share.html"><button class="btn btn-primary btn-lg btn-dark">Share</button></a></div>
+            <div class="padding-button"><a href="./delete.html"><button class="btn btn-primary btn-lg btn-dark">Delete</button></a></div>
         </div>
         <table class="table table-hover table-bordered">
             <thead>
                 <tr>
                     <th>Job Title</th>
                     <th>Company</th>
-                    <th>Status</th>
                     <th>Due Date</th>
+                    <th>Status</th>
                     <th>Link</th>
                     <th>Contact</th>
                     <th>Notes</th>
@@ -36,26 +34,56 @@
                 <tr>
                     <td><a tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Buttons to delete and share will appear here once I learn the power of JavasScript">QA Engineer Intern</a></button></td>
                     <td>Church of Jesus Christ of Latter-day Saints</td>
-                    <td>Interviewed</td>
                     <td>1/31/2024</td>
-                    <td><a href="//app.joinhandshake.com/stu/jobs/8481123" target="_blank"><img src="./icons/link.svg" width="25px"></a></td>
+                    <td><div class="dropdown">
+                        <a class="btn btn-secondary btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Select Status
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#">Not Applied</a></li>
+                          <li><a class="dropdown-item" href="#">Applied</a></li>
+                          <li><a class="dropdown-item" href="#">Invited for Interview</a></li>
+                          <li><a class="dropdown-item" href="#">Interviewed</a></li>
+                          <li><a class="dropdown-item" href="#">Received Offer</a></li>
+                          <li><a class="dropdown-item" href="#">Accepted Offer</a></li>
+                          <li><a class="dropdown-item" href="#">Rejected Offer</a></li>
+                          <li><a class="dropdown-item" href="#">Application Rejected</a></li>
+                        </ul>
+                      </div></td>
+                    <td class="td-center"><a href="//app.joinhandshake.com/stu/jobs/8481123" target="_blank"><img src="./icons/link.svg" class="table-icon"></a></td>
                     <td>N/A</td>
-                    <td><button class="no-show-button" data-bs-toggle="modal" data-bs-target="#noteModal">
-                        <img src="./icons/journal.svg" width="25px">
+                    <td class="td-center"><button class="no-show-button" data-bs-toggle="modal" data-bs-target="#noteModal">
+                        <img src="./icons/journal.svg" class="table-icon">
                     </button></td>
                 </tr>
                 <tr>
                     <td><a tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Buttons to delete and share will appear here once I learn the power of JavasScript">Software Developer, Intern</a></button></td>
                     <td>BambooHR</td>
-                    <td>Not Applied</td>
                     <td>N/A</td>
-                    <td><a href="https://www.bamboohr.com/about-bamboohr/careers/application/?gh_jid=5050141004" target="_blank"><img src="./icons/link.svg" width="25px"></a></td>
+                    <td><div class="dropdown">
+                        <a class="btn btn-secondary btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Select Status
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#">Not Applied</a></li>
+                          <li><a class="dropdown-item" href="#">Applied</a></li>
+                          <li><a class="dropdown-item" href="#">Invited for Interview</a></li>
+                          <li><a class="dropdown-item" href="#">Interviewed</a></li>
+                          <li><a class="dropdown-item" href="#">Received Offer</a></li>
+                          <li><a class="dropdown-item" href="#">Accepted Offer</a></li>
+                          <li><a class="dropdown-item" href="#">Rejected Offer</a></li>
+                          <li><a class="dropdown-item" href="#">Application Rejected</a></li>
+                        </ul>
+                      </div></td>
+                    <td class="td-center"><a href="https://www.bamboohr.com/about-bamboohr/careers/application/?gh_jid=5050141004" target="_blank"><img src="./icons/link.svg" class="table-icon"></a></td>
                     <td>N/A</td>
-                    <td></td>
+                    <td class="td-center"><button class="no-show-button" data-bs-toggle="modal" data-bs-target="#noteModal">
+                        <img src="./icons/journal.svg" class="table-icon">
+                    </button></td>
                 </tr>
             </tbody>
         </table>
-        <div class="padding-button"><a href="./index.html"><button class="btn btn-primary btn-lg">Sign out</button></a></div>
+        <div class="padding-button"><a href="./index.html"><button class="btn btn-primary btn-lg btn-dark">Sign out</button></a></div>
 
         <!--Popover button options-->
         <div id="popoverButtons" class="popoverButtons" style="display: none;">
@@ -122,10 +150,9 @@
         <p>AdamHubbs has shared a Software Developer Internship job at Lucid with you.</p>
     </aside>
     <footer>
-        <div>Created by Trevor Bond</div>
-        <div>Link to <a href="https://github.com/trevorkbond/startup" target="_blank">GitHub
-            <img src="./icons/new_tab.svg" width="15px"/>
-        </a></div>
+        <div><b>Trevor Bond</b></div>
+        <div><a href="https://github.com/trevorkbond/startup" target="_blank"><img src="./icons/github-white.svg" class="footer-icons" alt="GitHub Link"/></a></div>
+        <div><a href="https://www.linkedin.com/in/trevor-k-bond/" target="_blank"><img src="./icons/linkedin-white.png" class="footer-icons" alt="LinkedIn Link"/></a></div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>

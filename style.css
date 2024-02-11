@@ -9,6 +9,39 @@ html {
     height: 100%;
 }
 
+#header-override-jobs {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+#header-override-index {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.td-center {
+    text-align: center;
+    vertical-align: middle;
+}
+
+img {
+    width: 15px;
+}
+
+.table-icon {
+    width: 25px;
+}
+
 body {
     margin: 0;
     display: flex;
@@ -21,36 +54,72 @@ header {
     flex-direction: column;
     padding: 10px;
 
-    flex: 0 70px;
+    flex: 0 50px;
     background-color: black;
     color: white;
 }
 
-.header-buttons-container {
+.buttons-container {
     display: flex;
     flex-direction: row;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
+.login-buttons {
+    display: flex;
+    justify-content: center;
+}
+
 .padding-button {
     padding: 0 0.5em;
+}
+
+#padding-signin-override {
+    padding: .5em 1em .5em 1em;
+    margin: .5em .5em .5em .5em;
+    width: 100px;
+}
+
+.form-group-margin {
+    margin-bottom: 1em;
 }
 
 main {
     flex: 1;
     display: flex;
     flex-direction: column;
+    padding: 0 1em 0 1em;
+}
+
+.signin-upper-padding {
+    flex: .2;
+}
+
+.signin-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 footer {
+    flex: 0 50px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     
     background-color: black;
     color: white;
+}
+
+footer div {
+    padding: .5em 1em .5em 1em;
+}
+
+.footer-icons {
+    width: 20px;
 }
 
 .no-show-button {
