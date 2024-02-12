@@ -9,29 +9,26 @@ html {
     height: 100%;
 }
 
-#header-override-jobs {
-    display: block;
-    font-size: 2em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
+.header-override {
+    display: block !important;
+    font-size: 2em !important;
+    margin-block-start: 0.5em !important;
+    margin-block-end: 0.5em !important;
+    margin-inline-start: 0px !important;
+    margin-inline-end: 0px !important;
+    font-weight: bold !important;
 }
 
-#header-override-index {
-    display: block;
-    font-size: 2em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
+.header-padding {
+    padding-left: 1em;
 }
 
 .td-center {
     text-align: center;
-    vertical-align: middle;
+}
+
+td {
+    vertical-align: middle !important;
 }
 
 img {
@@ -75,14 +72,24 @@ header {
     padding: 0 0.5em;
 }
 
-#padding-signin-override {
-    padding: .5em 1em .5em 1em;
-    margin: .5em .5em .5em .5em;
-    width: 100px;
+.padding-button-override {
+    padding: .5em 1em .5em 1em !important;
+    margin: .5em .5em .5em .5em !important;
+    width: 100px !important;
 }
 
 .form-group-margin {
     margin-bottom: 1em;
+}
+
+.form-group-margin-less {
+    margin-bottom: .5em;
+}
+
+.form-header {
+    align-self: flex-start;
+    padding-top: 1em;
+    font-weight: bold;
 }
 
 main {
@@ -101,6 +108,17 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.form-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-content-container {
+    width: 55%;
 }
 
 footer {
