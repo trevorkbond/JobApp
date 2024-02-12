@@ -27,6 +27,10 @@ html {
     text-align: center;
 }
 
+.mobile-header {
+    display: none;
+}
+
 td {
     vertical-align: middle !important;
 }
@@ -130,6 +134,7 @@ footer {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    margin-top: 1em;
     
     background-color: black;
     color: white;
@@ -147,3 +152,93 @@ footer div {
     border: none;
     background-color: transparent;
 }
+
+/* rendering for mobile devices */
+
+@media only screen and (max-width: 700px) {
+    thead {
+        display: none;
+    }
+
+
+    .table {
+        --bs-table-border-color: transparent;
+        --bs-table-hover-bg: transparent;
+    }
+
+    .table-group-divider {
+        border-top: 0px transparent;
+    }
+  
+    tr {
+        display: grid;
+        justify-items: center;
+        grid-template-rows: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0px;
+        border-bottom: solid thin black;
+        border-top: solid thin black;
+        margin-top: -1px;
+    }
+
+    .card-entry {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2em;
+    }
+
+    /*grid styling for each item in "table"*/
+    .item1 {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        
+    }
+    .item2 {
+        grid-column-start: 1;
+        grid-column-end: 4;        
+    }
+    .item3 {
+        grid-column-start: 1;
+        grid-column-end: 2;   
+        
+    }
+    .item4 {
+        grid-column-start: 2;
+        grid-column-end: 4;
+        
+    }
+    .item5 {
+        grid-column-start: 1;
+        grid-column-end: 2;   
+        
+    }
+    .item6 {
+        grid-column-start: 2;
+        grid-column-end: 3;   
+        
+    }
+    .item7 {
+        grid-column-start: 3;
+        grid-column-end: 4;  
+    }
+
+    .mobile-header {
+        display: block;
+    }
+  
+    td {
+      display: block;
+      text-align: left;
+    }
+
+    .mobile-table-card {
+        display: none;
+        
+    }
+
+    .form-content-container {
+        width: 80%;
+    }
+  }
