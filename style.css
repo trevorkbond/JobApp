@@ -48,8 +48,11 @@ body {
 
 header {
     display: flex;
-    flex-direction: column;
-    padding: 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 10em;
+    padding: 10px 2em 10px 10px;
 
     flex: 0 50px;
     background-color: black;
