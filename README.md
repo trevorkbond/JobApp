@@ -61,3 +61,13 @@ I built out the basic structure of JobApp in HTML. Here is a list of things that
 - In `add.html`, there is a placehoder for the user to indicate if they'd like to add a reminder to apply for the job they're adding to Google Calendar. This will use the Google Calendar API to create an event in their calendar in advance of the application deadline as a reminder to apply
 
 **Note** - I updated my link so that the doman name [jobapp.click](https://jobapp.click) routes to my main page while [startup.jobapp.click](https://startup.jobapp.click) routes to the default page we were provided with. 
+
+## CSS Deliverable
+
+I added CSS styling in the following ways corresponding to the rubric:
+- Header, footer, and main content body - styled each element to fit desktop and mobile screens the way I like with black color in the header and footer
+- Navigation elements - styled buttons (add, share, delete, sign out)
+- Responsive to window resizing - Used a media query to adjust the layout of the home page from table to card view. Card view looks much better on mobile.
+- Application elements - used Bootstrap to style main table and added popovers and modals to help condense table data and allow users to click into icons for more information.
+- Application text content - Used the Google font "Inter" and applied that style to all text in my app.
+- Application images - Used Bootstrap SVG icons and sized them with CSS properties.
