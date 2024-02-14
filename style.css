@@ -172,9 +172,10 @@ footer div {
   
     tr {
         display: grid;
-        justify-items: center;
-        grid-template-rows: repeat(4, 1fr);
-        grid-template-columns: repeat(3, 1fr);
+        align-items: start;
+        grid-template-rows: max-content max-content max-content max-content;
+        grid-template-columns: repeat(3, 33%);
+        justify-content: space-between;
         gap: 0px;
         border-bottom: solid thin black;
         border-top: solid thin black;
@@ -230,7 +231,7 @@ footer div {
   
     td {
       display: block;
-      text-align: left;
+      text-align: center;
     }
 
     .mobile-table-card {
