@@ -23,6 +23,15 @@ html {
     padding-left: 1em;
 }
 
+.header-icons-padding {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-icon {
+    padding: 0 .5em 0 .5em;
+}
+
 .td-center {
     text-align: center;
 }
