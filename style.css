@@ -36,6 +36,15 @@ html {
     text-align: center;
 }
 
+.job-title-popover {
+    color: black;
+    text-decoration: none;
+}
+
+.job-title-popover:hover {
+    color: gray;
+}
+
 .mobile-header {
     display: none;
 }

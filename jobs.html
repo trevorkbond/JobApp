@@ -41,7 +41,7 @@
             </thead>
             <tbody class="table-group-divider">
                 <tr>
-                    <td class="item1 card-entry"><h4 class="mobile-header">Position</h4><a tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Buttons to delete and share will appear here once I learn the power of JavasScript">QA Engineer Intern</a></td>
+                    <td class="item1 card-entry"><h4 class="mobile-header">Position</h4><a class="job-title-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Buttons to delete and share will appear here once I learn the power of JavasScript">QA Engineer Intern</a></td>
                     <td class="item2 card-entry"><h4 class="mobile-header">Company</h4>Church of Jesus Christ of Latter-day Saints</td>
                     <td class="item3 card-entry"><h4 class="mobile-header">Due</h4>1/31/2024</td>
                     <td class="item4 card-entry"><h4 class="mobile-header">Status</h4>
@@ -68,7 +68,7 @@
                     </button></td>
                 </tr>
                 <tr>
-                    <td class="item1 card-entry"><h4 class="mobile-header">Position</h4><a tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Buttons to delete and share will appear here once I learn the power of JavasScript">Software Developer, Intern</a></td>
+                    <td class="item1 card-entry"><h4 class="mobile-header">Position</h4><a class="job-title-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Buttons to delete and share will appear here once I learn the power of JavasScript">Software Developer, Intern</a></td>
                     <td class="item2 card-entry"><h4 class="mobile-header">Company</h4>BambooHR</td>
                     <td class="item3 card-entry"><h4 class="mobile-header">Due</h4>N/A</td>
                     <td class="item4 card-entry"><h4 class="mobile-header">Status</h4>
@@ -96,6 +96,7 @@
                 </tr>
             </tbody>
         </table>
+
         <div class="padding-button"><a href="./index.html"><button class="btn btn-primary btn-lg btn-dark">Sign out</button></a></div>
 
         <!--Popover button options-->
@@ -167,13 +168,16 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="jobs.js"></script>
     <script>
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
         const popoverList = [...popoverTriggerList].map(popoverTriggerEl => {
             const popoverOptions = {};
             if (popoverTriggerEl.id === 'userPopover') {
-                const userName = localStorage.getItem('userName');
-                popoverOptions.content = userName !== '' ? userName : "Mystery User";
+                popoverOptions.content = getUsername();
+            } else if (popoverTriggerEl.classList.contains('job-title-popover')) {
+                popoverOptions.html = true;
+                popoverOptions.content = addJobButtons();
             }
             return new bootstrap.Popover(popoverTriggerEl, popoverOptions);
         });
@@ -181,6 +185,5 @@
             trigger: 'focus'
         });
     </script>
-    <script src="jobs.js"></script>
 </body>
 </html>
