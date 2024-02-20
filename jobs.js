@@ -39,9 +39,11 @@ function loadJobs() {
             const status = job.status;
             const jobLink = job.link;
             const contact = job.contact;
+            const jobID = job.jobID;
             const notes = job.notes;
 
             const row = document.createElement('tr');
+            row.setAttribute('id', jobID);
 
             const posEl = document.createElement('td');
             posEl.setAttribute('class', 'item1 card-entry');
@@ -59,11 +61,13 @@ function loadJobs() {
             posEl.appendChild(posTitleEl);
             row.appendChild(posEl);
 
+            // FIX COMPANY AND DATE HEADERS
+
             const companyEl = document.createElement('td');
             companyEl.setAttribute('class', 'item2 card-entry');
             const companyElHeader = document.createElement('h4');
             companyElHeader.setAttribute('class', 'mobile-header');
-            companyElHeader.textContent = "Company";
+            companyElHeader.textContent = "Position";
             companyEl.appendChild(companyElHeader);
             companyEl.textContent = companyName;
             row.appendChild(companyEl);
@@ -98,7 +102,7 @@ function loadJobs() {
             item1Inner = document.createElement('a');
             item1Inner.setAttribute('class', 'dropdown-item');
             item1Inner.setAttribute('href', '#');
-            item1Inner.setAttribute('onclick', "updateStatusTable('Not Applied')");
+            item1Inner.setAttribute('onclick', 'updateStatusTable("Not Applied", this.parentElement.parentElement.previousElementSibling);');
             item1Inner.textContent = "Not Applied";
             item1.appendChild(item1Inner);
 
@@ -106,7 +110,7 @@ function loadJobs() {
             item2Inner = document.createElement('a');
             item2Inner.setAttribute('class', 'dropdown-item');
             item2Inner.setAttribute('href', '#');
-            item2Inner.setAttribute('onclick', "updateStatusTable('Applied')");
+            item2Inner.setAttribute('onclick', 'updateStatusTable("Applied", this.parentElement.parentElement.previousElementSibling);');
             item2Inner.textContent = "Applied";
             item2.appendChild(item2Inner);
 
@@ -114,7 +118,7 @@ function loadJobs() {
             item3Inner = document.createElement('a');
             item3Inner.setAttribute('class', 'dropdown-item');
             item3Inner.setAttribute('href', '#');
-            item3Inner.setAttribute('onclick', "updateStatusTable('Invited for Interview')");
+            item3Inner.setAttribute('onclick', 'updateStatusTable("Invited for Interview", this.parentElement.parentElement.previousElementSibling);');
             item3Inner.textContent = "Invited for Interview";
             item3.appendChild(item3Inner);
 
@@ -122,7 +126,7 @@ function loadJobs() {
             item4Inner = document.createElement('a');
             item4Inner.setAttribute('class', 'dropdown-item');
             item4Inner.setAttribute('href', '#');
-            item4Inner.setAttribute('onclick', "updateStatusTable('Interviewed')");
+            item4Inner.setAttribute('onclick', 'updateStatusTable("Interviewed", this.parentElement.parentElement.previousElementSibling);');
             item4Inner.textContent = "Interviewed";
             item4.appendChild(item4Inner);
 
@@ -130,7 +134,7 @@ function loadJobs() {
             item5Inner = document.createElement('a');
             item5Inner.setAttribute('class', 'dropdown-item');
             item5Inner.setAttribute('href', '#');
-            item5Inner.setAttribute('onclick', "updateStatusTable('Received Offer')");
+            item5Inner.setAttribute('onclick', 'updateStatusTable("Received Offer", this.parentElement.parentElement.previousElementSibling);');
             item5Inner.textContent = "Received Offer";
             item5.appendChild(item5Inner);
 
@@ -138,7 +142,7 @@ function loadJobs() {
             item6Inner = document.createElement('a');
             item6Inner.setAttribute('class', 'dropdown-item');
             item6Inner.setAttribute('href', '#');
-            item6Inner.setAttribute('onclick', "updateStatusTable('Application Rejected')");
+            item6Inner.setAttribute('onclick', 'updateStatusTable("Application Rejected", this.parentElement.parentElement.previousElementSibling);');
             item6Inner.textContent = "Application Rejected";
             item6.appendChild(item6Inner);
 
@@ -210,6 +214,20 @@ function loadJobs() {
     } else {
         // do this later - display text to add job
     }
+}
+
+function updateStatusTable(status, el) {
+    const rowParentEl = el.parentElement.parentElement;
+    console.log(el.nodeName);
+    el.textContent = status;
+
+    let jobs = [];
+    const jobsText = localStorage.getItem("jobs");
+    if (jobsText) {
+        jobs = JSON.parse(jobsText);
+    }
+    jobs[rowParentEl.id].status = status;
+    localStorage.setItem("jobs", JSON.stringify(jobs));
 }
 
 loadJobs();
