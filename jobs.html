@@ -39,7 +39,7 @@
                     <th>Notes</th>
                 </tr>
             </thead>
-            <tbody class="table-group-divider">
+            <tbody class="table-group-divider" id="add-rows">
                 <tr>
                     <td class="item1 card-entry"><h4 class="mobile-header">Position</h4><a class="job-title-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Buttons to delete and share will appear here once I learn the power of JavasScript">QA Engineer Intern</a></td>
                     <td class="item2 card-entry"><h4 class="mobile-header">Company</h4>Church of Jesus Christ of Latter-day Saints</td>
@@ -180,9 +180,6 @@
                 popoverOptions.content = addJobButtons();
             }
             return new bootstrap.Popover(popoverTriggerEl, popoverOptions);
-        });
-        const popover = new bootstrap.Popover('.popover-dismiss', {
-            trigger: 'focus'
         });
     </script>
 </body>
