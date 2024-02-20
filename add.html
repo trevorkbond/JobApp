@@ -36,16 +36,17 @@
                     </div> -->
                     <div class="form-group form-group-margin-less">
                         <div class="dropdown">
-                            <a class="btn btn-secondary btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a id="status" class="btn btn-secondary btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Select Status
                             </a>
+                            <input type="hidden" name="selectedStatus" id="selectedStatus" value="">
                             <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Not Applied</a></li>
-                            <li><a class="dropdown-item" href="#">Applied</a></li>
-                            <li><a class="dropdown-item" href="#">Invited for Interview</a></li>
-                            <li><a class="dropdown-item" href="#">Interviewed</a></li>
-                            <li><a class="dropdown-item" href="#">Received Offer</a></li>
-                            <li><a class="dropdown-item" href="#">Application Rejected</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="updateStatusForm('Not Applied')">Not Applied</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="updateStatusForm('Applied')">Applied</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="updateStatusForm('Invited for Interview')">Invited for Interview</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="updateStatusForm('Interviewed')">Interviewed</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="updateStatusForm('Received Offer')">Received Offer</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="updateStatusForm('Application Rejected')">Application Rejected</a></li>
                             </ul>
                         </div>
                         <small id="statusHelp" class="form-text text-muted">Status of job application</small>
