@@ -26,17 +26,14 @@ function addJobButtons() {
     
     const editButton = document.createElement('button');
     editButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
-    editButton.classList.add('btn', 'btn-primary');
     editButton.textContent = 'Edit';
 
     const delButton = document.createElement('button');
     delButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
-    delButton.classList.add('btn', 'btn-primary');
     delButton.textContent = 'Delete';
 
     const shareButton = document.createElement('button');
     shareButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
-    shareButton.classList.add('btn', 'btn-primary');
     shareButton.textContent = 'Share';
 
     buttonsDiv.appendChild(editButton);
@@ -72,10 +69,10 @@ function loadJobs() {
                     <td class="item3 card-entry"><h4 class="mobile-header">Due</h4>` + dueDate + `</td>
                     <td class="item4 card-entry"><h4 class="mobile-header">Status</h4>
                         <a class="btn btn-secondary btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Select Status
+                          ` + status + `
                         </a>
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" onclick="updateStatusTable('Not Applied', this.parentElement.parentElement.previousElementSibling);">Not Applied</a></li>
+                          <li><a class="dropdown-item" href="#" onclick="updateStatusTable('Not Applied', this.parentElement.parentElement.previousElementSibling);">Not Applied</a></li>
                           <li><a class="dropdown-item" onclick="updateStatusTable('Applied', this.parentElement.parentElement.previousElementSibling);">Applied</a></li>
                           <li><a class="dropdown-item" onclick="updateStatusTable('Invited for Interview', this.parentElement.parentElement.previousElementSibling);">Invited for Interview</a></li>
                           <li><a class="dropdown-item" onclick="updateStatusTable('Interviewed', this.parentElement.parentElement.previousElementSibling);">Interviewed</a></li>
