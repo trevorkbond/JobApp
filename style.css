@@ -23,6 +23,10 @@ html {
     padding-left: 1em;
 }
 
+.dropdown-item {
+    cursor: pointer;
+}
+
 .header-icons-padding {
     display: flex;
     justify-content: space-between;

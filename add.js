@@ -1,11 +1,17 @@
 function addJobToLocalStorage() {
     const jobTitle = document.getElementById('jobTitle').value;
     const companyName = document.getElementById('companyName').value;
-    const dueDate = document.getElementById('dueDate').value;
+    const date = document.getElementById('dueDate').value;
     const status = document.getElementById('selectedStatus').value;
     const jobLink = document.getElementById('jobLink').value;
     const contact = document.getElementById('contact').value;
     const notes = document.getElementById('notes').value;
+
+    const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    let dateObj = new Date(date);
+    dateObj.setDate(dateObj.getDate() + 1);
+    let dueDate = dateObj.toLocaleDateString('en-US', dateOptions);
+    dueDate = dueDate === "Invalid Date" ? "None" : dueDate;
 
     const newJobObject = {
         title: jobTitle,
