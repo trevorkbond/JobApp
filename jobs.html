@@ -22,11 +22,6 @@
     </header>
 
     <main>
-        <div class="buttons-container">
-            <div class="padding-button"><a href="./add.html"><button class="btn btn-primary btn-lg btn-dark">Add</button></a></div>
-            <div class="padding-button"><a href="./share.html"><button class="btn btn-primary btn-lg btn-dark">Share</button></a></div>
-            <div class="padding-button"><a href="./delete.html"><button class="btn btn-primary btn-lg btn-dark">Delete</button></a></div>
-        </div>
         <table class="table table-hover table-bordered">
             <thead>
                 <tr>
@@ -40,64 +35,8 @@
                 </tr>
             </thead>
             <tbody class="table-group-divider" id="add-rows">
-                <tr>
-                    <td class="item1 card-entry"><h4 class="mobile-header">Position</h4><a class="job-title-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Buttons to delete and share will appear here once I learn the power of JavasScript">QA Engineer Intern</a></td>
-                    <td class="item2 card-entry"><h4 class="mobile-header">Company</h4>Church of Jesus Christ of Latter-day Saints</td>
-                    <td class="item3 card-entry"><h4 class="mobile-header">Due</h4>1/31/2024</td>
-                    <td class="item4 card-entry"><h4 class="mobile-header">Status</h4>
-                        <a class="btn btn-secondary btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Select Status
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Not Applied</a></li>
-                          <li><a class="dropdown-item" href="#">Applied</a></li>
-                          <li><a class="dropdown-item" href="#">Invited for Interview</a></li>
-                          <li><a class="dropdown-item" href="#">Interviewed</a></li>
-                          <li><a class="dropdown-item" href="#">Received Offer</a></li>
-                          <li><a class="dropdown-item" href="#">Application Rejected</a></li>
-                        </ul>
-                    </td>
-                    <td class="td-center item5 card-entry"><h4 class="mobile-header">Link</h4><a href="//app.joinhandshake.com/stu/jobs/8481123" target="_blank"><img src="./icons/link.svg" class="table-icon"></a></td>
-                    <td class="td-center item6 card-entry"><h4 class="mobile-header">Contact</h4>
-                        <button type="button" class="no-show-button" data-bs-toggle="popover" data-bs-content="example@gmail.com">
-                            <img src="./icons/envelope.svg" class="table-icon">
-                        </button>
-                    </td>
-                    <td class="td-center item7 card-entry"><h4 class="mobile-header">Notes</h4><button class="no-show-button" data-bs-toggle="modal" data-bs-target="#noteModal">
-                        <img src="./icons/journal.svg" class="table-icon">
-                    </button></td>
-                </tr>
-                <tr>
-                    <td class="item1 card-entry"><h4 class="mobile-header">Position</h4><a class="job-title-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Buttons to delete and share will appear here once I learn the power of JavasScript">Software Developer, Intern</a></td>
-                    <td class="item2 card-entry"><h4 class="mobile-header">Company</h4>BambooHR</td>
-                    <td class="item3 card-entry"><h4 class="mobile-header">Due</h4>N/A</td>
-                    <td class="item4 card-entry"><h4 class="mobile-header">Status</h4>
-                        <a class="btn btn-secondary btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Select Status
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Not Applied</a></li>
-                          <li><a class="dropdown-item" href="#">Applied</a></li>
-                          <li><a class="dropdown-item" href="#">Invited for Interview</a></li>
-                          <li><a class="dropdown-item" href="#">Interviewed</a></li>
-                          <li><a class="dropdown-item" href="#">Received Offer</a></li>
-                          <li><a class="dropdown-item" href="#">Application Rejected</a></li>
-                        </ul>
-                    </td>
-                    <td class="td-center item5 card-entry"><h4 class="mobile-header">Link</h4><a href="https://www.bamboohr.com/about-bamboohr/careers/application/?gh_jid=5050141004" target="_blank"><img src="./icons/link.svg" class="table-icon"></a></td>
-                    <td class="td-center item6 card-entry"><h4 class="mobile-header">Contact</h4>
-                        <button type="button" class="no-show-button" data-bs-toggle="popover" data-bs-content="example@gmail.com">
-                            <img src="./icons/envelope.svg" class="table-icon">
-                        </button>
-                    </td>
-                    <td class="td-center item7 card-entry"><h4 class="mobile-header">Notes</h4><button class="no-show-button" data-bs-toggle="modal" data-bs-target="#noteModal">
-                        <img src="./icons/journal.svg" class="table-icon">
-                    </button></td>
-                </tr>
             </tbody>
         </table>
-
-        <div class="padding-button"><a href="./index.html"><button class="btn btn-primary btn-lg btn-dark">Sign out</button></a></div>
 
         <!--Popover button options-->
         <div id="popoverButtons" class="popoverButtons" style="display: none;">
@@ -174,11 +113,12 @@
         const popoverList = [...popoverTriggerList].map(popoverTriggerEl => {
             const popoverOptions = {};
             if (popoverTriggerEl.id === 'userPopover') {
-                popoverOptions.content = getUsername();
+                popoverOptions.html = true;
+                popoverOptions.content = addUserMenu();
             } else if (popoverTriggerEl.classList.contains('job-title-popover')) {
                 popoverOptions.html = true;
                 popoverOptions.content = addJobButtons();
-            }
+            } 
             return new bootstrap.Popover(popoverTriggerEl, popoverOptions);
         });
     </script>

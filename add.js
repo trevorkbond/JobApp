@@ -18,6 +18,8 @@ function addJobToLocalStorage() {
         jobID: getJobIDIncrement()
     }
 
+
+
     let jobList = [];
     const jobsText = localStorage.getItem("jobs");
     if (jobsText) {

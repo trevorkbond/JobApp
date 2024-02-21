@@ -3,6 +3,23 @@ function getUsername() {
     return userName !== '' ? userName : "Mystery User";
 }
 
+function addUserMenu() {
+    const userName = document.createElement('p');
+    userName.textContent = getUsername();
+    const buttonDiv = document.createElement('div');
+    buttonDiv.setAttribute('style', 'display: flex; flex-direction: column; justify-content: center; align-items: center;')
+    const aWrapper = document.createElement('a');
+    aWrapper.setAttribute('href', 'index.html');
+    const soButton = document.createElement('button');
+    soButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
+    soButton.classList.add('btn', 'btn-primary');
+    soButton.textContent = 'Sign Out';
+    aWrapper.appendChild(soButton);
+    buttonDiv.appendChild(userName);
+    buttonDiv.appendChild(aWrapper);
+    return buttonDiv;
+}
+
 function addJobButtons() {
     const buttonsDiv = document.createElement('div');
     buttonsDiv.classList.add('buttons-container');
@@ -17,7 +34,13 @@ function addJobButtons() {
     delButton.classList.add('btn', 'btn-primary');
     delButton.textContent = 'Delete';
 
+    const shareButton = document.createElement('button');
+    shareButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
+    shareButton.classList.add('btn', 'btn-primary');
+    shareButton.textContent = 'Share';
+
     buttonsDiv.appendChild(editButton);
+    buttonsDiv.appendChild(shareButton);
     buttonsDiv.appendChild(delButton);
 
     return buttonsDiv;
@@ -42,183 +65,57 @@ function loadJobs() {
             const jobID = job.jobID;
             const notes = job.notes;
 
+            const rowHTML = `
+                    <td class="item1 card-entry"><h4 class="mobile-header">Position</h4>
+                        <a class="job-title-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Buttons to delete and share will appear here once I learn the power of JavasScript">` + jobTitle + `</a></td>
+                    <td class="item2 card-entry"><h4 class="mobile-header">Company</h4>` + companyName + `</td>
+                    <td class="item3 card-entry"><h4 class="mobile-header">Due</h4>` + dueDate + `</td>
+                    <td class="item4 card-entry"><h4 class="mobile-header">Status</h4>
+                        <a class="btn btn-secondary btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Select Status
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" onclick="updateStatusTable('Not Applied', this.parentElement.parentElement.previousElementSibling);">Not Applied</a></li>
+                          <li><a class="dropdown-item" onclick="updateStatusTable('Applied', this.parentElement.parentElement.previousElementSibling);">Applied</a></li>
+                          <li><a class="dropdown-item" onclick="updateStatusTable('Invited for Interview', this.parentElement.parentElement.previousElementSibling);">Invited for Interview</a></li>
+                          <li><a class="dropdown-item" onclick="updateStatusTable('Interviewed', this.parentElement.parentElement.previousElementSibling);">Interviewed</a></li>
+                          <li><a class="dropdown-item" onclick="updateStatusTable('Received Offer', this.parentElement.parentElement.previousElementSibling);">Received Offer</a></li>
+                          <li><a class="dropdown-item" onclick="updateStatusTable('Application Rejected', this.parentElement.parentElement.previousElementSibling);">Application Rejected</a></li>
+                        </ul>
+                    </td>
+                    <td class="td-center item5 card-entry"><h4 class="mobile-header">Link</h4><a href="` + jobLink + `" target="_blank"><img src="./icons/link.svg" class="table-icon"></a></td>
+                    <td class="td-center item6 card-entry"><h4 class="mobile-header">Contact</h4>
+                        <button type="button" class="no-show-button" data-bs-toggle="popover" data-bs-content="` + contact + `">
+                            <img src="./icons/envelope.svg" class="table-icon">
+                        </button>
+                    </td>
+                    <td class="td-center item7 card-entry"><h4 class="mobile-header">Notes</h4><button class="no-show-button" data-bs-toggle="modal" data-bs-target="#noteModal">
+                        <img src="./icons/journal.svg" class="table-icon">
+                    </button></td>
+                </tr>
+                `;
+
             const row = document.createElement('tr');
             row.setAttribute('id', jobID);
-
-            const posEl = document.createElement('td');
-            posEl.setAttribute('class', 'item1 card-entry');
-            const posElHeader = document.createElement('h4');
-            posElHeader.setAttribute('class', 'mobile-header');
-            posElHeader.textContent = "Position";
-            posEl.appendChild(posElHeader);
-            const posTitleEl = document.createElement('a');
-            posTitleEl.setAttribute('class', 'job-title-popover');
-            posTitleEl.setAttribute('tabindex', '0');
-            posTitleEl.setAttribute('role', 'button');
-            posTitleEl.setAttribute('data-bs-toggle', 'popover');
-            posTitleEl.setAttribute('data-bs-trigger', 'focus');
-            posTitleEl.innerHTML = jobTitle;
-            posEl.appendChild(posTitleEl);
-            row.appendChild(posEl);
-
-            // FIX COMPANY AND DATE HEADERS
-
-            const companyEl = document.createElement('td');
-            companyEl.setAttribute('class', 'item2 card-entry');
-            const companyElHeader = document.createElement('h4');
-            companyElHeader.setAttribute('class', 'mobile-header');
-            companyElHeader.textContent = "Position";
-            companyEl.appendChild(companyElHeader);
-            companyEl.textContent = companyName;
-            row.appendChild(companyEl);
-
-            const dateEl = document.createElement('td');
-            dateEl.setAttribute('class', 'item3 card-entry');
-            const dateElHeader = document.createElement('h4');
-            dateElHeader.setAttribute('class', 'mobile-header');
-            dateElHeader.textContent = "Due";
-            dateEl.appendChild(dateElHeader);
-            dateEl.textContent = dueDate; //FIX THIS
-            row.appendChild(dateEl);
-
-            const statusEl = document.createElement('td');
-            statusEl.setAttribute('class', 'item4 card-entry');
-            const statusElHeader = document.createElement('h4');
-            statusElHeader.setAttribute('class', 'mobile-header');    
-            statusElHeader.textContent = "Status";
-            statusEl.appendChild(statusElHeader);
-            statusElDropdown = document.createElement('a');
-            statusElDropdown.setAttribute('class', 'btn btn-secondary btn-light dropdown-toggle');
-            statusElDropdown.setAttribute('href', '#');
-            statusElDropdown.setAttribute('role', 'button');
-            statusElDropdown.setAttribute('data-bs-toggle', 'dropdown');
-            statusElDropdown.setAttribute('aria-expanded', 'false');
-            statusElDropdown.textContent = status;
-            statusElUl = document.createElement('ul');
-            statusElUl.setAttribute('class', 'dropdown-menu');
-            statusEl.appendChild(statusElDropdown);
-
-            item1 = document.createElement('li');
-            item1Inner = document.createElement('a');
-            item1Inner.setAttribute('class', 'dropdown-item');
-            item1Inner.setAttribute('href', '#');
-            item1Inner.setAttribute('onclick', 'updateStatusTable("Not Applied", this.parentElement.parentElement.previousElementSibling);');
-            item1Inner.textContent = "Not Applied";
-            item1.appendChild(item1Inner);
-
-            item2 = document.createElement('li');
-            item2Inner = document.createElement('a');
-            item2Inner.setAttribute('class', 'dropdown-item');
-            item2Inner.setAttribute('href', '#');
-            item2Inner.setAttribute('onclick', 'updateStatusTable("Applied", this.parentElement.parentElement.previousElementSibling);');
-            item2Inner.textContent = "Applied";
-            item2.appendChild(item2Inner);
-
-            item3 = document.createElement('li');
-            item3Inner = document.createElement('a');
-            item3Inner.setAttribute('class', 'dropdown-item');
-            item3Inner.setAttribute('href', '#');
-            item3Inner.setAttribute('onclick', 'updateStatusTable("Invited for Interview", this.parentElement.parentElement.previousElementSibling);');
-            item3Inner.textContent = "Invited for Interview";
-            item3.appendChild(item3Inner);
-
-            item4 = document.createElement('li');
-            item4Inner = document.createElement('a');
-            item4Inner.setAttribute('class', 'dropdown-item');
-            item4Inner.setAttribute('href', '#');
-            item4Inner.setAttribute('onclick', 'updateStatusTable("Interviewed", this.parentElement.parentElement.previousElementSibling);');
-            item4Inner.textContent = "Interviewed";
-            item4.appendChild(item4Inner);
-
-            item5 = document.createElement('li');
-            item5Inner = document.createElement('a');
-            item5Inner.setAttribute('class', 'dropdown-item');
-            item5Inner.setAttribute('href', '#');
-            item5Inner.setAttribute('onclick', 'updateStatusTable("Received Offer", this.parentElement.parentElement.previousElementSibling);');
-            item5Inner.textContent = "Received Offer";
-            item5.appendChild(item5Inner);
-
-            item6 = document.createElement('li');
-            item6Inner = document.createElement('a');
-            item6Inner.setAttribute('class', 'dropdown-item');
-            item6Inner.setAttribute('href', '#');
-            item6Inner.setAttribute('onclick', 'updateStatusTable("Application Rejected", this.parentElement.parentElement.previousElementSibling);');
-            item6Inner.textContent = "Application Rejected";
-            item6.appendChild(item6Inner);
-
-            statusElUl.appendChild(item1);
-            statusElUl.appendChild(item2);
-            statusElUl.appendChild(item3);
-            statusElUl.appendChild(item4);
-            statusElUl.appendChild(item5);
-            statusElUl.appendChild(item6);
-
-            statusEl.appendChild(statusElUl);
-            row.appendChild(statusEl);
-
-            const linkEl = document.createElement('td');
-            linkEl.setAttribute('class', 'td-center item5 card-entry');
-            const linkElHeader = document.createElement('h4');
-            linkElHeader.setAttribute('class', 'mobile-header'); 
-            linkElHeader.textContent = "Link";
-            linkEl.appendChild(linkElHeader);
-            const link = document.createElement('a');
-            link.setAttribute('href', jobLink);
-            link.setAttribute('target', '_blank');
-            const linkIcon = document.createElement('img');
-            linkIcon.setAttribute('src', './icons/link.svg');
-            linkIcon.setAttribute('class', 'table-icon');
-            link.appendChild(linkIcon);
-            linkEl.appendChild(link);
-            row.appendChild(linkEl);
-
-            const contactEl = document.createElement('td');
-            contactEl.setAttribute('class', 'td-center item6 card-entry');
-            const contactElHeader = document.createElement('h4');
-            contactElHeader.setAttribute('class', 'mobile-header'); 
-            contactElHeader.textContent = "Contact";
-            contactEl.appendChild(contactElHeader);
-            const contactButton = document.createElement('button');
-            contactButton.setAttribute('type', 'button');
-            contactButton.setAttribute('class', 'no-show-button');
-            contactButton.setAttribute('data-bs-toggle', 'popover');
-            contactButton.setAttribute('data-bs-content', contact);
-            const contactIcon = document.createElement('img');
-            contactIcon.setAttribute('src', './icons/envelope.svg');
-            contactIcon.setAttribute('class', 'table-icon');
-            contactButton.appendChild(contactIcon);
-            contactEl.appendChild(contactButton);
-            row.appendChild(contactEl);
-
-            const noteEl = document.createElement('td');
-            noteEl.setAttribute('class', 'td-center item7 card-entry');
-            const noteElHeader = document.createElement('h4');
-            noteElHeader.setAttribute('class', 'mobile-header'); 
-            noteElHeader.textContent = "Notes";
-            noteEl.appendChild(noteElHeader);
-            const noteButton = document.createElement('button');
-            noteButton.setAttribute('class', 'no-show-button');
-            noteButton.setAttribute('data-bs-toggle', 'modal');
-            noteButton.setAttribute('data-bs-target', '#noteModal'); // THIS NEEDS TO BE FIXED LATER
-            const noteIcon = document.createElement('img');
-            noteIcon.setAttribute('src', './icons/journal.svg');
-            noteIcon.setAttribute('class', 'table-icon');
-            noteButton.appendChild(noteIcon);
-            noteEl.appendChild(noteButton);
-            row.appendChild(noteEl);
+            row.innerHTML = rowHTML;
 
             const tableParent = document.getElementById('add-rows');
 
             tableParent.appendChild(row);
         });
-    } else {
-        // do this later - display text to add job
+        
     }
+
+    const finalRow = document.createElement('tr');
+    finalRow.innerHTML = (`
+        <td colspan="7" class="fill-row-mobile"><div class="padding-button"><a href="./add.html"><button class="btn btn-primary btn-lg btn-dark">Add New Job</button></a></div></td>
+    `);
+    const tableParent = document.getElementById('add-rows');
+    tableParent.appendChild(finalRow);
 }
 
 function updateStatusTable(status, el) {
     const rowParentEl = el.parentElement.parentElement;
-    console.log(el.nodeName);
     el.textContent = status;
 
     let jobs = [];
