@@ -86,19 +86,43 @@ function loadJobs() {
                             <img src="./icons/envelope.svg" class="table-icon">
                         </button>
                     </td>
-                    <td class="td-center item7 card-entry"><h4 class="mobile-header">Notes</h4><button class="no-show-button" data-bs-toggle="modal" data-bs-target="#noteModal">
+                    <td class="td-center item7 card-entry"><h4 class="mobile-header">Notes</h4><button class="no-show-button" data-bs-toggle="modal" data-bs-target="#noteModal` + jobID + `">
                         <img src="./icons/journal.svg" class="table-icon">
                     </button></td>
                 </tr>
                 `;
+
+            const modalHTML = `
+            <div class="modal fade" id="noteModal` + jobID + `" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Notes</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>` + notes + `</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
 
             const row = document.createElement('tr');
             row.setAttribute('id', jobID);
             row.innerHTML = rowHTML;
 
             const tableParent = document.getElementById('add-rows');
-
             tableParent.appendChild(row);
+
+            const mainEl = document.querySelector('main');
+            const modalEl = document.createElement('div');
+            modalEl.innerHTML = modalHTML;
+            mainEl.appendChild(modalEl);
         });
         
     }
