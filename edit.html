@@ -16,7 +16,7 @@
     <main>
         <div class="form-div form-group-margin-less">
             <div class="form-content-container">
-                <h3 class="form-group-margin-less form-header" style="align-self: flex-start; padding-top: 1em;">Edit job below</h3>
+                <h3 id="editHeader" class="form-group-margin-less form-header" style="align-self: flex-start; padding-top: 1em;">Edit job below</h3>
                 <form class="add-delete-share-form" action="./jobs.html">
                     <div class="form-group form-group-margin-less">
                         <input type="text" class="form-control" id="jobTitle" aria-describedby="titleHelp" placeholder="Job title..." required>
@@ -64,7 +64,7 @@
                         <small id="notesHelp" class="form-text text-muted">Other notes for the job (job description, interview notes, etc.)</small>
                     </div>
                     <div class="buttons-container">
-                        <button id="addJobButton" type="submit" class="btn btn-dark padding-button-override" onclick="editJobLocalStorage()">Edit job</button>
+                        <button id="editJobButton" type="submit" class="btn btn-dark padding-button-override" onclick="editJobLocalStorage()">Edit job</button>
                         <button type="submit" class="btn btn-dark padding-button-override" onclick="cancelEditJob()" formnovalidate>Cancel</button>
                     </div>
                 </form>

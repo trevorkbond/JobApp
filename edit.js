@@ -4,6 +4,7 @@ function updateStatusForm(status) {
 }
 
 function loadJobFields() {
+    setDifferentTextIfSharedJob();
     const editJobID = localStorage.getItem('editJob');
     if (editJobID) {
         let jobList = [];
@@ -62,6 +63,16 @@ function editJobLocalStorage() {
     
     localStorage.setItem("jobs", JSON.stringify(jobList));
     localStorage.removeItem('editJob');
+}
+
+function setDifferentTextIfSharedJob() {
+    if (localStorage.getItem('sharedJob') === 'true') {
+        const header = document.getElementById('editHeader');
+        header.textContent = "Add additional notes to shared job as needed";
+        const button = document.getElementById('editJobButton');
+        button.textContent = "Add";
+        localStorage.removeItem('sharedJob');
+    }
 }
 
 function cancelEditJob() {

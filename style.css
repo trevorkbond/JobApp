@@ -108,6 +108,12 @@ header {
     width: 100px !important;
 }
 
+.padding-button-override-small {
+    padding: .25em .5em .25em .5em !important;
+    margin: .25em !important;
+    width: 100px !important;
+}
+
 .form-group-margin {
     margin-bottom: 1em;
 }
@@ -269,5 +275,9 @@ footer div {
 
     .form-content-container {
         width: 80%;
+    }
+
+    .dropdown-mobile {
+        white-space: normal !important;
     }
   }

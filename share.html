@@ -16,14 +16,14 @@
     <main>
         <div class="form-div form-group-margin-less">
             <div class="form-content-container">
-                <h3 class="form-group-margin-less form-header" style="align-self: flex-start; padding-top: 1em;">Who would you like to share *chosen job* with?</h3>
+                <h3 class="form-group-margin-less form-header" style="align-self: flex-start; padding-top: 1em;" id="shareMessage"></h3>
                 <form class="add-delete-share-form" action="./jobs.html">
                     <div class="form-group form-group-margin-less">
-                        <input type="email" class="form-control" id="friendShare" aria-describedby="friendHelp" placeholder="Friend email..." required>
-                        <small id="friendHelp" class="form-text text-muted">Email of friend to share job with</small>
+                        <input type="text" class="form-control" id="friendShare" aria-describedby="friendHelp" placeholder="Friend username..." required>
+                        <small id="friendHelp" class="form-text text-muted">Username of friend to share job with</small>
                         <div class="buttons-container">
-                            <button type="submit" class="btn btn-dark padding-button-override">Share</button>
-                            <button type="submit" class="btn btn-dark padding-button-override" formnovalidate>Cancel</button>
+                            <button type="submit" class="btn btn-dark padding-button-override" onclick="shareJob()">Share</button>
+                            <button type="submit" class="btn btn-dark padding-button-override" onclick="cancelShareJob()" formnovalidate>Cancel</button>
                         </div>
                     </div>
                 </form>
@@ -36,6 +36,8 @@
         <div><a href="https://github.com/trevorkbond/startup" target="_blank"><img src="./icons/github-white.svg" class="footer-icons" alt="GitHub Link"/></a></div>
         <div><a href="https://www.linkedin.com/in/trevor-k-bond/" target="_blank"><img src="./icons/linkedin-white.png" class="footer-icons" alt="LinkedIn Link"/></a></div>
     </footer>
+
+    <script src="share.js"></script>
 
 </body>
 </html>
