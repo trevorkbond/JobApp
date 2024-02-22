@@ -101,11 +101,11 @@ function loadJobs() {
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>` + notes + `</p>
+                        <textarea class="form-control" rows="20" id="editableTextField` + jobID + `">` + notes + `</textarea>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-dark" id="save` + jobID + `" onclick="saveNote(this);">Save Changes</button>
                         </div>
                     </div>
                 </div>
@@ -145,6 +145,19 @@ function updateStatusTable(status, el) {
         jobs = JSON.parse(jobsText);
     }
     jobs[rowParentEl.id].status = status;
+    localStorage.setItem("jobs", JSON.stringify(jobs));
+}
+
+function saveNote(buttonEl) {
+    const jobID = buttonEl.id.replace(/^\D+/g, '');
+    const textFieldEl = document.getElementById('editableTextField' + jobID);
+    const noteToAdjust = textFieldEl.value;
+    let jobs = [];
+    const jobsText = localStorage.getItem("jobs");
+    if (jobsText) {
+        jobs = JSON.parse(jobsText);
+    }
+    jobs[jobID].notes = noteToAdjust;
     localStorage.setItem("jobs", JSON.stringify(jobs));
 }
 
