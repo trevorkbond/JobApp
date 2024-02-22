@@ -20,8 +20,8 @@
                 <form class="add-delete-share-form" action="./jobs.html">
                     <div class="form-group form-group-margin-less">
                         <div class="buttons-container">
-                            <button type="submit" class="btn btn-dark padding-button-override">Yes</button>
-                            <button type="submit" class="btn btn-dark padding-button-override" formnovalidate>Cancel</button>
+                            <button type="submit" class="btn btn-dark padding-button-override" onclick="deleteJob()">Yes</button>
+                            <button type="submit" class="btn btn-dark padding-button-override" onclick="cancelDelJob()" formnovalidate>Cancel</button>
                         </div>
                     </div>
                 </form>
@@ -34,6 +34,8 @@
         <div><a href="https://github.com/trevorkbond/startup" target="_blank"><img src="./icons/github-white.svg" class="footer-icons" alt="GitHub Link"/></a></div>
         <div><a href="https://www.linkedin.com/in/trevor-k-bond/" target="_blank"><img src="./icons/linkedin-white.png" class="footer-icons" alt="LinkedIn Link"/></a></div>
     </footer>
+
+    <script src="delete.js"></script>
 
 </body>
 </html>

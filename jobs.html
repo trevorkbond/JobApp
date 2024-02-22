@@ -57,7 +57,7 @@
                 popoverOptions.content = addUserMenu();
             } else if (popoverTriggerEl.classList.contains('job-title-popover')) {
                 popoverOptions.html = true;
-                popoverOptions.content = addJobButtons();
+                popoverOptions.content = addJobButtons(popoverTriggerEl.parentElement.parentElement.id);
             } 
             return new bootstrap.Popover(popoverTriggerEl, popoverOptions);
         });

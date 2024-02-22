@@ -20,27 +20,36 @@ function addUserMenu() {
     return buttonDiv;
 }
 
-function addJobButtons() {
+function addJobButtons(jobID) {
     const buttonsDiv = document.createElement('div');
     buttonsDiv.classList.add('buttons-container');
     
     const editButton = document.createElement('button');
     editButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
+    editButton.setAttribute('id', 'edit' + jobID);
     editButton.textContent = 'Edit';
 
     const delButton = document.createElement('button');
     delButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
+    delButton.setAttribute('id', 'del' + jobID);
+    delButton.setAttribute('onclick', 'addDelJobToLocalStorage(this);');
     delButton.textContent = 'Delete';
 
     const shareButton = document.createElement('button');
     shareButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
     shareButton.textContent = 'Share';
+    shareButton.setAttribute('id', 'share' + jobID);
 
     buttonsDiv.appendChild(editButton);
     buttonsDiv.appendChild(shareButton);
     buttonsDiv.appendChild(delButton);
 
     return buttonsDiv;
+}
+
+function addDelJobToLocalStorage(delEl) {
+    localStorage.setItem('delJob', getJobIDFromID(delEl.id));
+    window.location.href = './delete.html';
 }
 
 function loadJobs() {
@@ -64,7 +73,7 @@ function loadJobs() {
 
             const rowHTML = `
                     <td class="item1 card-entry"><h4 class="mobile-header">Position</h4>
-                        <a class="job-title-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Buttons to delete and share will appear here once I learn the power of JavasScript">` + jobTitle + `</a></td>
+                        <a class="job-title-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="">` + jobTitle + `</a></td>
                     <td class="item2 card-entry"><h4 class="mobile-header">Company</h4>` + companyName + `</td>
                     <td class="item3 card-entry"><h4 class="mobile-header">Due</h4>` + dueDate + `</td>
                     <td class="item4 card-entry"><h4 class="mobile-header">Status</h4>
@@ -72,7 +81,7 @@ function loadJobs() {
                           ` + status + `
                         </a>
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#" onclick="updateStatusTable('Not Applied', this.parentElement.parentElement.previousElementSibling);">Not Applied</a></li>
+                          <li><a class="dropdown-item" onclick="updateStatusTable('Not Applied', this.parentElement.parentElement.previousElementSibling);">Not Applied</a></li>
                           <li><a class="dropdown-item" onclick="updateStatusTable('Applied', this.parentElement.parentElement.previousElementSibling);">Applied</a></li>
                           <li><a class="dropdown-item" onclick="updateStatusTable('Invited for Interview', this.parentElement.parentElement.previousElementSibling);">Invited for Interview</a></li>
                           <li><a class="dropdown-item" onclick="updateStatusTable('Interviewed', this.parentElement.parentElement.previousElementSibling);">Interviewed</a></li>
@@ -149,7 +158,7 @@ function updateStatusTable(status, el) {
 }
 
 function saveNote(buttonEl) {
-    const jobID = buttonEl.id.replace(/^\D+/g, '');
+    const jobID = getJobIDFromID(buttonEl.id);
     const textFieldEl = document.getElementById('editableTextField' + jobID);
     const noteToAdjust = textFieldEl.value;
     let jobs = [];
@@ -159,6 +168,10 @@ function saveNote(buttonEl) {
     }
     jobs[jobID].notes = noteToAdjust;
     localStorage.setItem("jobs", JSON.stringify(jobs));
+}
+
+function getJobIDFromID(id) {
+    return id.replace(/^\D+/g, '');
 }
 
 loadJobs();
