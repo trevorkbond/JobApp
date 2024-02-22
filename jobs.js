@@ -27,6 +27,7 @@ function addJobButtons(jobID) {
     const editButton = document.createElement('button');
     editButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
     editButton.setAttribute('id', 'edit' + jobID);
+    editButton.setAttribute('onclick', 'addEditJobToLocalStorage(this)');
     editButton.textContent = 'Edit';
 
     const delButton = document.createElement('button');
@@ -57,6 +58,11 @@ function addDelJobToLocalStorage(delEl) {
     const delJob = jobs[getIndexFromJobID(getJobIDFromID(delEl.id))];
     localStorage.setItem('delJobMessage', `Are you sure you'd like to stop tracking the ${delJob.title} position at ${delJob.company}?`);
     window.location.href = './delete.html';
+}
+
+function addEditJobToLocalStorage(editEl) {
+    localStorage.setItem('editJob', getJobIDFromID(editEl.id));
+    window.location.href = './edit.html';
 }
 
 function loadJobs() {
