@@ -49,6 +49,13 @@ function addJobButtons(jobID) {
 
 function addDelJobToLocalStorage(delEl) {
     localStorage.setItem('delJob', getJobIDFromID(delEl.id));
+    let jobs = [];
+    const jobsText = localStorage.getItem("jobs");
+    if (jobsText) {
+        jobs = JSON.parse(jobsText);
+    }
+    const delJob = jobs[getIndexFromJobID(getJobIDFromID(delEl.id))];
+    localStorage.setItem('delJobMessage', `Are you sure you'd like to stop tracking the ${delJob.title} position at ${delJob.company}?`);
     window.location.href = './delete.html';
 }
 
@@ -153,7 +160,7 @@ function updateStatusTable(status, el) {
     if (jobsText) {
         jobs = JSON.parse(jobsText);
     }
-    jobs[rowParentEl.id].status = status;
+    jobs[getIndexFromJobID(rowParentEl.id)].status = status;
     localStorage.setItem("jobs", JSON.stringify(jobs));
 }
 
@@ -166,8 +173,22 @@ function saveNote(buttonEl) {
     if (jobsText) {
         jobs = JSON.parse(jobsText);
     }
-    jobs[jobID].notes = noteToAdjust;
+    jobs[getIndexFromJobID(jobID)].notes = noteToAdjust;
     localStorage.setItem("jobs", JSON.stringify(jobs));
+}
+
+function getIndexFromJobID(id) {
+    let jobs = [];
+    const jobsText = localStorage.getItem("jobs");
+    if (jobsText) {
+        jobs = JSON.parse(jobsText);
+    }
+    for (let i = 0; i < jobs.length; i++) {
+        if (jobs[i].jobID === parseInt(id)) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 function getJobIDFromID(id) {
