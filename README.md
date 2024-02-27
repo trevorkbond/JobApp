@@ -71,3 +71,11 @@ I added CSS styling in the following ways corresponding to the rubric:
 - Application elements - used Bootstrap to style main table and added popovers and modals to help condense table data and allow users to click into icons for more information.
 - Application text content - Used the Google font "Inter" and applied that style to all text in my app.
 - Application images - Used Bootstrap SVG icons and sized them with CSS properties.
+
+## JavaScript Deliverable
+
+I implemented interactivity in the app in the following ways corresponding to the rubric:
+- Javascript support for future login - when a user inputs a username, that username is stored in localStorage and displayed when the user icon in the top right of `jobs.html` is clicked on. If no username is specified, "Mystery User" is displayed
+- JavaScript support for future database data - I added functionality to add, edit, and delete tracked jobs from the database, which is currently stored in localStorage. Buttons to edit and delete appear when the corresponding job title is clicked on
+- JavaScript support for future WebSocket - I used a setInterval function on the main page to "notify" the user every 10 seconds of a job that has been shared with them. This can be seen when you enter the notification modal by clicking on the bell icon in the top right of the main page. Added JavaScript functionality to add the job or ignore it
+- JavaScript support for application logic - not a ton of logic is used in my app, however, the notification icon changes based on the number of shared job notifications, and logic was needed to edit/delete stored jobs based on job ID
