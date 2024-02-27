@@ -49,10 +49,11 @@ function addJobButtons(jobID) {
     return buttonsDiv;
 }
 
-function addNotificationButtons() {
+function getNotificationEl(jobMessage) {
     const popoverDiv = document.createElement('div');
+    popoverDiv.setAttribute('style', 'border-bottom: 1px solid black; margin-top: .5em;');
     const popoverText = document.createElement('p');
-    popoverDiv.textContent = "AdamHubbs shared a Software Developer Intern position at Lucid with you. Would you like to add or ignore it?";
+    popoverDiv.textContent = jobMessage;
     const buttonsDiv = document.createElement('div');
     buttonsDiv.classList.add('buttons-container');
     
@@ -63,7 +64,7 @@ function addNotificationButtons() {
 
     const ignoreButton = document.createElement('button');
     ignoreButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override-small');
-    // delButton.setAttribute('onclick', 'addDelJobToLocalStorage(this);');
+    ignoreButton.setAttribute('onclick', 'ignoreNotification(this.parentElement.parentElement);');
     ignoreButton.textContent = 'Ignore';
 
     buttonsDiv.appendChild(addButton);
@@ -72,6 +73,19 @@ function addNotificationButtons() {
     popoverDiv.appendChild(buttonsDiv);
 
     return popoverDiv;
+}
+
+function ignoreNotification(el) {
+    el.remove();
+    updateNotificationIcon();
+}
+
+function updateNotificationIcon() {
+    if (document.getElementById('notificationList').childElementCount !== 0) {
+        document.getElementById('notificationIcon').setAttribute('src', './icons/bell.svg');
+    } else {
+        document.getElementById('notificationIcon').setAttribute('src', './icons/bell-slash.svg');
+    }
 }
 
 function addSharedJobToLocalStorage() {
@@ -283,10 +297,11 @@ function getJobIDFromID(id) {
     return id.replace(/^\D+/g, '');
 }
 
-function showNotificationPopover() {
-    console.log("showed thing")
-    const popover = document.getElementById('notificationPopover');
-    bootstrap.Popover.getInstance(popover).show();
+function notifySharedJob() {
+    const notiModal = document.getElementById('notificationList');
+    const newSharedJob = getNotificationEl("AdamHubbs shared a Software Developer Intern position at Lucid with you. Would you like to add or ignore it?");
+    notiModal.appendChild(newSharedJob);
+    updateNotificationIcon();
 }
 
 function getJobIDIncrement() {
@@ -311,10 +326,6 @@ function recreatePopovers() {
         } else if (popoverTriggerEl.classList.contains('job-title-popover')) {
             popoverOptions.html = true;
             popoverOptions.content = addJobButtons(popoverTriggerEl.parentElement.parentElement.id);
-        } else if (popoverTriggerEl.id === 'notificationPopover') {
-            popoverOptions.html = true;
-            popoverOptions.content = addNotificationButtons();
-            popoverOptions.trigger = 'manual';
         }
         return new bootstrap.Popover(popoverTriggerEl, popoverOptions);
     });
@@ -322,4 +333,4 @@ function recreatePopovers() {
 
 loadJobs();
 recreatePopovers();
-setInterval(showNotificationPopover, 10000);
+setInterval(notifySharedJob, 10000);

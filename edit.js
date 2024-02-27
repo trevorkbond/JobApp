@@ -68,7 +68,7 @@ function editJobLocalStorage() {
 function setDifferentTextIfSharedJob() {
     if (localStorage.getItem('sharedJob') === 'true') {
         const header = document.getElementById('editHeader');
-        header.textContent = "Add additional notes to shared job as needed";
+        header.textContent = "Make changes to shared job as needed";
         const button = document.getElementById('editJobButton');
         button.textContent = "Add";
         localStorage.removeItem('sharedJob');
