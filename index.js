@@ -10,8 +10,12 @@ app.use(function (err, req, res, next) {
 var apiRouter = express.Router();
 app.use('/api', apiRouter);
 
-app.post('/job', (req, res) => {
+app.post('/jobs', (req, res) => {
   jobs = addJob(jobs, req);
+  res.send(jobs);
+})
+
+app.get('/josb', (req, res) => {
   res.send(jobs);
 })
 

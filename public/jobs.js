@@ -148,16 +148,22 @@ function addShareJobToLocalStorage(shareEl) {
     window.location.href = './share.html';
 }
 
-function loadJobs(refresh = false) {
+async function loadJobs(refresh = false) {
 
     if (refresh) {
         document.getElementById('add-rows').innerHTML = "";
     }
 
     let jobs = [];
-    const jobsText = localStorage.getItem("jobs");
-    if (jobsText) {
-        jobs = JSON.parse(jobsText);
+    try {
+        const response = await fetch('/api/jobs');
+        jobs = await response.json();
+        localStorage.setItem('jobs', json.stringify(jobs));
+    } catch {
+        const jobsText = localStorage.getItem("jobs");
+        if (jobsText) {
+            jobs = json.parse(jobsText);
+        }
     }
 
     if (jobs.length) {
