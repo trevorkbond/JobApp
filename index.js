@@ -11,7 +11,7 @@ var apiRouter = express.Router();
 app.use('/api', apiRouter);
 
 apiRouter.post('/jobs', (req, res) => {
-  jobs = addJob(jobs, req);
+  addJob(jobs, req.body);
   res.send(jobs);
 })
 
@@ -28,21 +28,10 @@ let jobs = [];
 let nextJobID = 0;
 
 function addJob(jobs, newJob) {
+  console.log('newjob: ' + JSON.stringify(newJob));
+  console.log('jobs: ' + JSON.stringify(jobs));
   newJob.jobID = nextJobID++;
-  if (findJob(newJob.jobID === null)) {
-    jobs.push(newJob);
-  } else {
-    throw new Error('jobID already taken');
-  }
-}
-
-function findJob(jobID) {
-  jobs.forEach((job) => {
-    if (job.jobID === jobID) {
-      console.log("foundJob\n" + job);
-      return job;
-    }
-  })
-  return null;
+  jobs.push(newJob);
+  console.log('jobs: ' + JSON.stringify(jobs));
 }
 

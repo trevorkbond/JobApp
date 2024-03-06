@@ -1,4 +1,4 @@
-function addJobToLocalStorage() {
+async function addJobToLocalStorage() {
     const jobTitle = document.getElementById('jobTitle').value;
     const companyName = document.getElementById('companyName').value;
     const date = document.getElementById('dueDate').value;
@@ -22,19 +22,30 @@ function addJobToLocalStorage() {
         status: status,
         link: jobLink,
         contact: contact,
-        notes: notes,
-        jobID: getJobIDIncrement()
-    }
-    
-    let jobList = [];
-    const jobsText = localStorage.getItem("jobs");
-    if (jobsText) {
-        jobList = JSON.parse(jobsText);
+        notes: notes
     }
 
-    jobList.push(newJobObject);
+    try {
+        const response = await fetch('/api/jobs', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+        },
+          body: JSON.stringify(newJobObject),
+        });
+        const jobs = await response.json();
+        localStorage.setItem('jobs', JSON.stringify(jobs));
+      } catch {
+        let jobList = [];
+        const jobsText = localStorage.getItem("jobs");
+        if (jobsText) {
+            jobList = JSON.parse(jobsText);
+        }
     
-    localStorage.setItem("jobs", JSON.stringify(jobList));
+        jobList.push(newJobObject);
+        
+        localStorage.setItem("jobs", JSON.stringify(jobList));
+      }
 }
 
 function updateStatusForm(status) {
