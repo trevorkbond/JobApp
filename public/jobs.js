@@ -337,6 +337,10 @@ function recreatePopovers() {
     });
 }
 
-loadJobs();
-recreatePopovers();
-setInterval(notifySharedJob, 10000);
+async function load() {
+    await loadJobs();
+    recreatePopovers();
+    setInterval(notifySharedJob, 10000);
+}
+
+load();

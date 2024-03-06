@@ -28,10 +28,7 @@ let jobs = [];
 let nextJobID = 0;
 
 function addJob(jobs, newJob) {
-  console.log('newjob: ' + JSON.stringify(newJob));
-  console.log('jobs: ' + JSON.stringify(jobs));
   newJob.jobID = nextJobID++;
   jobs.push(newJob);
-  console.log('jobs: ' + JSON.stringify(jobs));
 }
 
