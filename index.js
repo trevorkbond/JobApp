@@ -10,12 +10,12 @@ app.use(function (err, req, res, next) {
 var apiRouter = express.Router();
 app.use('/api', apiRouter);
 
-app.post('/jobs', (req, res) => {
+apiRouter.post('/jobs', (req, res) => {
   jobs = addJob(jobs, req);
   res.send(jobs);
 })
 
-app.get('/josb', (req, res) => {
+apiRouter.get('/jobs', (req, res) => {
   res.send(jobs);
 })
 
@@ -39,6 +39,7 @@ function addJob(jobs, newJob) {
 function findJob(jobID) {
   jobs.forEach((job) => {
     if (job.jobID === jobID) {
+      console.log("foundJob\n" + job);
       return job;
     }
   })

@@ -158,11 +158,11 @@ async function loadJobs(refresh = false) {
     try {
         const response = await fetch('/api/jobs');
         jobs = await response.json();
-        localStorage.setItem('jobs', json.stringify(jobs));
+        localStorage.setItem('jobs', JSON.stringify(jobs));
     } catch {
         const jobsText = localStorage.getItem("jobs");
         if (jobsText) {
-            jobs = json.parse(jobsText);
+            jobs = JSON.parse(jobsText);
         }
     }
 
