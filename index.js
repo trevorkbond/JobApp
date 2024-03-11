@@ -30,7 +30,6 @@ apiRouter.get('/jobs/:user', (req, res) => {
 
 apiRouter.put('/jobs', (req, res) => {
   editJob(jobs, req.body);
-  console.log(jobs);
   const filteredJobs = getFilteredJobs(jobs, req.body.user);
   res.send(filteredJobs);
 })

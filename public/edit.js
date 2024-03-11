@@ -4,6 +4,13 @@ function updateStatusForm(status) {
 }
 
 function loadJobFields() {
+    if (localStorage.getItem('sharedJob') === 'true') {
+        // THESE ARE CONSTANT VALS AND WILL CHANGE WITH WEBSOCKETS
+        document.getElementById('jobTitle').value = "Software Development Intern";
+        document.getElementById('companyName').value = "Lucid";
+        document.getElementById('jobLink').value = "https://lucidchart.com";
+        document.getElementById('contact').value = "example@lucid.com";
+    }
     setDifferentTextIfSharedJob();
     const editJobID = localStorage.getItem('editJob');
     if (editJobID) {
@@ -56,33 +63,35 @@ async function editJobLocalStorage() {
         user: username
     }
 
-    console.log(JSON.stringify(editJobObject));
-
-    if (editJobID) {
-        try {
-            const response = await fetch('/api/jobs', {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json'
-            },
-              body: JSON.stringify(editJobObject),
-            });
-            const jobs = await response.json();
-            localStorage.setItem('jobs', JSON.stringify(jobs));
-            localStorage.removeItem('editJob');
-        } catch {
-            let jobList = [];
-            const jobsText = localStorage.getItem("jobs");
-            if (jobsText) {
-                jobList = JSON.parse(jobsText);
-            }
-            const editJob = jobList[getIndexFromJobID(parseInt(editJobID))];
-
-            jobList[getIndexFromJobID(editJob.jobID)] = newJobObject;
-            
-            localStorage.setItem("jobs", JSON.stringify(jobList));
-            localStorage.removeItem('editJob');
+    let httpMethod;
+    if (localStorage.getItem('sharedJob') === 'true') {
+        httpMethod = 'POST';
+    } else {
+        httpMethod = 'PUT';
+    }
+    try {
+        const response = await fetch('/api/jobs', {
+            method: httpMethod,
+            headers: {
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify(editJobObject),
+        });
+        const jobs = await response.json();
+        localStorage.setItem('jobs', JSON.stringify(jobs));
+        localStorage.removeItem('editJob');
+    } catch {
+        let jobList = [];
+        const jobsText = localStorage.getItem("jobs");
+        if (jobsText) {
+            jobList = JSON.parse(jobsText);
         }
+        const editJob = jobList[getIndexFromJobID(parseInt(editJobID))];
+
+        jobList[getIndexFromJobID(editJob.jobID)] = newJobObject;
+        
+        localStorage.setItem("jobs", JSON.stringify(jobList));
+        localStorage.removeItem('editJob');
     }
 }
 
@@ -92,7 +101,6 @@ function setDifferentTextIfSharedJob() {
         header.textContent = "Make changes to shared job as needed";
         const button = document.getElementById('editJobButton');
         button.textContent = "Add";
-        localStorage.removeItem('sharedJob');
     }
 }
 
