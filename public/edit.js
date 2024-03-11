@@ -24,7 +24,7 @@ function loadJobFields() {
     }
 }
 
-function editJobLocalStorage() {
+async function editJobLocalStorage() {
     const jobTitle = document.getElementById('jobTitle').value;
     const companyName = document.getElementById('companyName').value;
     const date = document.getElementById('dueDate').value;
@@ -40,15 +40,11 @@ function editJobLocalStorage() {
     dueDate = dueDate === "Invalid Date" ? "None" : dueDate;
 
     const contact = jobContact === "" ? "None" : jobContact;
+    let username = localStorage.getItem('userName');
+    username = username === "" ? "Mystery User" : username;
 
-    let jobList = [];
-    const jobsText = localStorage.getItem("jobs");
-    if (jobsText) {
-        jobList = JSON.parse(jobsText);
-    }
-    const editJob = jobList[getIndexFromJobID(parseInt(localStorage.getItem('editJob')))];
-
-    const newJobObject = {
+    const editJobID = localStorage.getItem('editJob');
+    const editJobObject = {
         title: jobTitle,
         company: companyName,
         date: dueDate,
@@ -56,14 +52,38 @@ function editJobLocalStorage() {
         link: jobLink,
         contact: contact,
         notes: notes,
-        jobID: editJob.jobID,
-        
+        jobID: parseInt(editJobID),
+        user: username
     }
 
-    jobList[getIndexFromJobID(editJob.jobID)] = newJobObject;
-    
-    localStorage.setItem("jobs", JSON.stringify(jobList));
-    localStorage.removeItem('editJob');
+    console.log(JSON.stringify(editJobObject));
+
+    if (editJobID) {
+        try {
+            const response = await fetch('/api/jobs', {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json'
+            },
+              body: JSON.stringify(editJobObject),
+            });
+            const jobs = await response.json();
+            localStorage.setItem('jobs', JSON.stringify(jobs));
+            localStorage.removeItem('editJob');
+        } catch {
+            let jobList = [];
+            const jobsText = localStorage.getItem("jobs");
+            if (jobsText) {
+                jobList = JSON.parse(jobsText);
+            }
+            const editJob = jobList[getIndexFromJobID(parseInt(editJobID))];
+
+            jobList[getIndexFromJobID(editJob.jobID)] = newJobObject;
+            
+            localStorage.setItem("jobs", JSON.stringify(jobList));
+            localStorage.removeItem('editJob');
+        }
+    }
 }
 
 function setDifferentTextIfSharedJob() {
@@ -95,9 +115,13 @@ function getIndexFromJobID(id) {
 }
 
 function convertDateFormat(inputDate) {
-    var parts = inputDate.split('/');
-    var formattedDate = parts[2] + '-' + parts[0].padStart(2, '0') + '-' + parts[1].padStart(2, '0');
-
+    let parts = inputDate.split('/');
+    let formattedDate;
+    try {
+        formattedDate = parts[2] + '-' + parts[0].padStart(2, '0') + '-' + parts[1].padStart(2, '0');
+    } catch {
+        formattedDate = "";
+    }
     return formattedDate;
 }
 

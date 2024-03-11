@@ -15,7 +15,6 @@ async function addJobToLocalStorage() {
     dueDate = dueDate === "Invalid Date" ? "None" : dueDate;
 
     const contact = jobContact === "" ? "None" : jobContact;
-    console.log(username);
     username = username === "" ? "Mystery User" : username;
 
     const newJobObject = {

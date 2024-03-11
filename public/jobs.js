@@ -265,30 +265,63 @@ function addOneJobToDOM(job, insertBeforeLast = false) {
     mainEl.appendChild(modalEl);
 }
 
-function updateStatusTable(status, el) {
+async function updateStatusTable(status, el) {
     const rowParentEl = el.parentElement.parentElement;
     el.textContent = status;
+    const jobID = rowParentEl.id;
+    const editJobObject = { jobID: parseInt(jobID), user: localStorage.getItem('userName') }; 
 
-    let jobs = [];
-    const jobsText = localStorage.getItem("jobs");
-    if (jobsText) {
-        jobs = JSON.parse(jobsText);
+    try {
+        let username = localStorage.getItem('userName');
+        username = username === "" ? "Mystery User" : username;
+        const response = await fetch(`/api/jobs/${status}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+          },
+            body: JSON.stringify(editJobObject),
+          });
+        jobs = await response.json();
+        localStorage.setItem('jobs', JSON.stringify(jobs));
+    } catch {
+        let jobs = [];
+        const jobsText = localStorage.getItem("jobs");
+        if (jobsText) {
+            jobs = JSON.parse(jobsText);
+        }
+        jobs[getIndexFromJobID(jobID)].status = status;
+        localStorage.setItem("jobs", JSON.stringify(jobs));
     }
-    jobs[getIndexFromJobID(rowParentEl.id)].status = status;
-    localStorage.setItem("jobs", JSON.stringify(jobs));
 }
 
-function saveNote(buttonEl) {
+async function saveNote(buttonEl) {
     const jobID = getJobIDFromID(buttonEl.id);
     const textFieldEl = document.getElementById('editableTextField' + jobID);
     const noteToAdjust = textFieldEl.value;
-    let jobs = [];
-    const jobsText = localStorage.getItem("jobs");
-    if (jobsText) {
-        jobs = JSON.parse(jobsText);
+
+    const response = await fetch(`/api/jobs/single/${jobID}`);
+    let foundJob = await response.json();
+    foundJob.notes = noteToAdjust;
+
+    try {
+        const response = await fetch('/api/jobs', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+        },
+          body: JSON.stringify(foundJob),
+        });
+        const jobs = await response.json();
+        localStorage.setItem('jobs', JSON.stringify(jobs));
+    } catch {
+        let jobs = [];
+        const jobsText = localStorage.getItem("jobs");
+        if (jobsText) {
+            jobs = JSON.parse(jobsText);
+        }
+        jobs[getIndexFromJobID(jobID)].notes = noteToAdjust;
+        localStorage.setItem("jobs", JSON.stringify(jobs));
     }
-    jobs[getIndexFromJobID(jobID)].notes = noteToAdjust;
-    localStorage.setItem("jobs", JSON.stringify(jobs));
 }
 
 function getIndexFromJobID(id) {

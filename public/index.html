@@ -19,17 +19,17 @@
             <div style="width: fit-content; border: solid thin black; padding: 2em; border-radius: 2em;">
                 <h2>Sign in</h2>
                 <p>Sign in or create an account to access JobApp</p>
-                <form action="jobs.html">
+                <form action="jobs.html" onsubmit="login()">
                     <div class="form-group form-group-margin">
                         <label for="userName">Username</label>
-                        <input type="text" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="Enter username">
+                        <input type="text" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="Enter username" required>
                     </div>
                     <div class="form-group form-group-margin">
                         <label for="inputPassword1">Password</label>
                         <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                     </div>
                     <div class="buttons-container">
-                        <button onclick="login()" class="btn btn-dark padding-button-override">Sign in</button>
+                        <button type="submit" class="btn btn-dark padding-button-override">Sign in</button>
                         <button type="submit" class="btn btn-dark padding-button-override">Register</button>
                     </div>
                 </form>

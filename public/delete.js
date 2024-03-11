@@ -1,7 +1,6 @@
 async function deleteJob() {
     const delJobID = localStorage.getItem('delJob');
     const delJobObject = { jobID: parseInt(delJobID), user: localStorage.getItem('userName') }; 
-    console.log(JSON.stringify(delJobID));
     if (delJobID) {
         try {
             const response = await fetch('/api/jobs', {
