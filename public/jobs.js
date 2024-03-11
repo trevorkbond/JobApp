@@ -96,8 +96,7 @@ function addSharedJobToLocalStorage() {
         status: "",
         link: "https://lucidchart.com",
         contact: "example@lucid.com",
-        notes: "",
-        jobID: getJobIDIncrement()
+        notes: ""
     }
 
     // NOTE: THESE ARE HARDCODED VALUES FOR THE TIME BEING. ACTUAL SHARED VALUES WILL BE IMPLEMENTED BY WEBSOCKETS
@@ -156,7 +155,8 @@ async function loadJobs(refresh = false) {
 
     let jobs = [];
     try {
-        const response = await fetch('/api/jobs');
+        const username = localStorage.getItem('userName');
+        const response = await fetch(`/api/jobs/${username}`);
         jobs = await response.json();
         localStorage.setItem('jobs', JSON.stringify(jobs));
     } catch {
@@ -308,18 +308,6 @@ function notifySharedJob() {
     const newSharedJob = getNotificationEl("AdamHubbs shared a Software Developer Intern position at Lucid with you. Would you like to add or ignore it?");
     notiModal.appendChild(newSharedJob);
     updateNotificationIcon();
-}
-
-function getJobIDIncrement() {
-    let nextJobID = JSON.parse(localStorage.getItem("jobID"));
-    if (nextJobID !== null && nextJobID !== "") {
-        localStorage.setItem("jobID", JSON.stringify(++nextJobID));
-        return --nextJobID;
-    } else {
-        nextJobID = 0;
-        localStorage.setItem("jobID", JSON.stringify(++nextJobID));
-        return --nextJobID;
-    }
 }
 
 function recreatePopovers() {

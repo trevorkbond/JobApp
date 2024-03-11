@@ -56,7 +56,8 @@ function editJobLocalStorage() {
         link: jobLink,
         contact: contact,
         notes: notes,
-        jobID: editJob.jobID
+        jobID: editJob.jobID,
+        
     }
 
     jobList[getIndexFromJobID(editJob.jobID)] = newJobObject;

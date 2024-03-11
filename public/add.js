@@ -6,6 +6,7 @@ async function addJobToLocalStorage() {
     const jobLink = document.getElementById('jobLink').value;
     const jobContact = document.getElementById('contact').value;
     const notes = document.getElementById('notes').value;
+    const username = localStorage.getItem('userName');
 
     const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
     let dateObj = new Date(date);
@@ -22,7 +23,8 @@ async function addJobToLocalStorage() {
         status: status,
         link: jobLink,
         contact: contact,
-        notes: notes
+        notes: notes,
+        user: username
     }
 
     try {
