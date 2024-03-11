@@ -14,10 +14,15 @@ function addUserMenu() {
     soButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
     soButton.classList.add('btn', 'btn-primary');
     soButton.textContent = 'Sign Out';
+    soButton.setAttribute('onclick', 'signOut();');
     aWrapper.appendChild(soButton);
     buttonDiv.appendChild(userName);
     buttonDiv.appendChild(aWrapper);
     return buttonDiv;
+}
+
+function signOut() {
+    localStorage.removeItem('userName');
 }
 
 function addJobButtons(jobID) {
@@ -155,7 +160,8 @@ async function loadJobs(refresh = false) {
 
     let jobs = [];
     try {
-        const username = localStorage.getItem('userName');
+        let username = localStorage.getItem('userName');
+        username = username === "" ? "Mystery User" : username;
         const response = await fetch(`/api/jobs/${username}`);
         jobs = await response.json();
         localStorage.setItem('jobs', JSON.stringify(jobs));

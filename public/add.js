@@ -6,7 +6,7 @@ async function addJobToLocalStorage() {
     const jobLink = document.getElementById('jobLink').value;
     const jobContact = document.getElementById('contact').value;
     const notes = document.getElementById('notes').value;
-    const username = localStorage.getItem('userName');
+    let username = localStorage.getItem('userName');
 
     const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
     let dateObj = new Date(date);
@@ -15,6 +15,8 @@ async function addJobToLocalStorage() {
     dueDate = dueDate === "Invalid Date" ? "None" : dueDate;
 
     const contact = jobContact === "" ? "None" : jobContact;
+    console.log(username);
+    username = username === "" ? "Mystery User" : username;
 
     const newJobObject = {
         title: jobTitle,
