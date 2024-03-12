@@ -85,6 +85,6 @@ I implemented interactivity in the app in the following ways corresponding to th
 I implemented service endpoints in the following ways corresponding to the rubric:
 - Create an HTTP service using Node.js and Express - utilizing Node.js and Express for a backend server
 - Frontend served up using Express static middleware - done
-- Your frontend calls third party service endpoints - I get a random quote from an API I found ![here](https://forum.freecodecamp.org/t/free-api-inspirational-quotes-json-with-code-examples/311373) and display that quote on `index.html`. You can see it by adding a job, clicking on the job title on the main screen, then going to the share page.
+- Your frontend calls third party service endpoints - I get a random quote from an API I found [here](https://forum.freecodecamp.org/t/free-api-inspirational-quotes-json-with-code-examples/311373) and display that quote on `index.html`. You can see it by adding a job, clicking on the job title on the main screen, then going to the share page.
 - Your backend provides service endpoints - my backend provides endpoints for adding, deleting, and editing jobs. Adding is more obvious, and you can delete or edit a job by clicking on the job title and selecting either button. Endpoints are also called to edit jobs when the job status or notes are changed on the main page.
 - Your frontend calls your service endpoints - done. Front end calls endpoints for all interactivity with jobs.
