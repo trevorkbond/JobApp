@@ -19,7 +19,7 @@ async function loginOrCreate(endpoint) {
   
     if (response.ok) {
       localStorage.setItem('userName', userName);
-      window.location.href = 'play.html';
+      window.location.href = 'jobs.html';
     } else {
       const body = await response.json();
       const modalEl = document.querySelector('#msgModal');
@@ -27,4 +27,4 @@ async function loginOrCreate(endpoint) {
       const msgModal = new bootstrap.Modal(modalEl, {});
       msgModal.show();
     }
-  }
+}
