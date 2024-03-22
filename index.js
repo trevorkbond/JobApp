@@ -1,14 +1,31 @@
 const express = require('express');
+const DB = require('./database.js');
 const app = express();
+const authCookieName = 'token';
 
 app.use(express.json());
 app.use(express.static('public'));
 app.use(function (err, req, res, next) {
-  res.status(500).send({type: err.name, message: err.message});
+  res.status(500).send({ type: err.name, message: err.message });
 });
 
 var apiRouter = express.Router();
 app.use('/api', apiRouter);
+
+apiRouter.post('/auth/create', async (req, res) => {
+  if (await DB.getUser(req.body.email)) {
+    res.status(409).send({ msg: 'Existing user' });
+  } else {
+    const user = await DB.createUser(req.body.email, req.body.password);
+
+    // Set the cookie
+    setAuthCookie(res, user.token);
+
+    res.send({
+      id: user._id,
+    });
+  }
+});
 
 apiRouter.post('/jobs', (req, res) => {
   addJob(jobs, req.body);
@@ -97,5 +114,13 @@ function editJobStatus(jobs, status, jobID) {
 function getFilteredJobs(jobs, user) {
   const filteredJobs = jobs.filter(job => job.user === user);
   return filteredJobs;
+}
+
+function setAuthCookie(res, authToken) {
+  res.cookie(authCookieName, authToken, {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'strict',
+  });
 }
 

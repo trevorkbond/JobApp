@@ -10,7 +10,7 @@ const hostname = config.hostname;
 
 const url = `mongodb+srv://${userName}:${password}@${hostname}`;
 const client = new MongoClient(url);
-const userCollection = client.db('authTest').collection('user');
+const userCollection = client.db('startup').collection('user');
 
 function getUser(email) {
   return userCollection.findOne({ email: email });
