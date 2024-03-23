@@ -75,6 +75,8 @@ async function editJobLocalStorage() {
         const jobs = await response.json();
         localStorage.setItem('jobs', JSON.stringify(jobs));
         localStorage.removeItem('editJob');
+        localStorage.removeItem('sharedJob');
+        window.location.href = './jobs.html';
     } catch {
         let jobList = [];
         const jobsText = localStorage.getItem("jobs");
@@ -87,6 +89,7 @@ async function editJobLocalStorage() {
         
         localStorage.setItem("jobs", JSON.stringify(jobList));
         localStorage.removeItem('editJob');
+        localStorage.removeItem('sharedJob');
     }
 }
 
