@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const DB = require('./database.js');
 const bcrypt = require('bcrypt');
 const app = express();
@@ -6,6 +7,8 @@ const authCookieName = 'token';
 
 app.use(express.json());
 app.use(express.static('public'));
+app.use(cookieParser());
+
 app.use(function (err, req, res, next) {
   res.status(500).send({ type: err.name, message: err.message });
 });
@@ -64,9 +67,13 @@ secureApiRouter.use(async (req, res, next) => {
 });
 
 secureApiRouter.post('/jobs', (req, res) => {
-  addJob(jobs, req.body);
-  const filteredJobs = getFilteredJobs(jobs, req.body.user);
-  res.send(filteredJobs);
+  const userJobs = DB.addJob(req.body, nextJobID++);
+  if (userJobs) {
+    res.send(userJobs);
+  } else {
+    res.status(500).send({ msg : 'Internal error fetching user jobs after adding' });
+  }
+  
 });
 
 secureApiRouter.get('/jobs/single/:jobID', (req, res) => {
@@ -75,14 +82,14 @@ secureApiRouter.get('/jobs/single/:jobID', (req, res) => {
   res.send(foundJob);
 });
 
-secureApiRouter.get('/jobs/:user', (req, res) => {
+secureApiRouter.get('/jobs/:user', async (req, res) => {
   const username = req.params.user;
-  const filteredJobs = getFilteredJobs(jobs, username);
+  const filteredJobs = await DB.getJobsForUser(username);
   res.send(filteredJobs);
 });
 
 secureApiRouter.put('/jobs', (req, res) => {
-  editJob(jobs, req.body);
+  DB.editJob(req.body);
   const filteredJobs = getFilteredJobs(jobs, req.body.user);
   res.send(filteredJobs);
 });
@@ -104,50 +111,7 @@ app.listen(port, function () {
   console.log(`Listening on port ${port}`);
 });
 
-function addJob(jobs, newJob) {
-  newJob.jobID = nextJobID++;
-  jobs.push(newJob);
-}
-
-function getJobFromID(jobs, jobID) {
-  for (let i = 0; i < jobs.length; i++) {
-    if (jobs[i].jobID === jobID) {
-      return jobs[i];
-    }
-  }
-}
-
-function deleteJob(jobs, delJob) {
-  for (let i = 0; i < jobs.length; i++) {
-    if (jobs[i].jobID === delJob.jobID) {
-      jobs.splice(i, 1);
-      return;
-    }
-  }
-}
-
-function editJob(jobs, editJob) {
-  for (let i = 0; i < jobs.length; i++) {
-    if (jobs[i].jobID === editJob.jobID) {
-      jobs[i] = editJob;
-      return;
-    }
-  }
-}
-
-function editJobStatus(jobs, status, jobID) {
-  for (let i = 0; i < jobs.length; i++) {
-    if (jobs[i].jobID === jobID) {
-      jobs[i].status = status;
-      return;
-    }
-  }
-}
-
-function getFilteredJobs(jobs, user) {
-  const filteredJobs = jobs.filter(job => job.user === user);
-  return filteredJobs;
-}
+let nextJobID = 0;
 
 function setAuthCookie(res, authToken) {
   res.cookie(authCookieName, authToken, {
