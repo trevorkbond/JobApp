@@ -104,6 +104,8 @@ function setDifferentTextIfSharedJob() {
 
 function cancelEditJob() {
     localStorage.removeItem('editJob');
+    localStorage.removeItem('sharedJob');
+    window.location.href = './jobs.html';
 }
 
 function getIndexFromJobID(id) {

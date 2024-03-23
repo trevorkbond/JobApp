@@ -109,15 +109,6 @@ function addSharedJobToLocalStorage() {
 
     // NOTE: THESE ARE HARDCODED VALUES FOR THE TIME BEING. ACTUAL SHARED VALUES WILL BE IMPLEMENTED BY WEBSOCKETS
     
-    let jobList = [];
-    const jobsText = localStorage.getItem("jobs");
-    if (jobsText) {
-        jobList = JSON.parse(jobsText);
-    }
-
-    jobList.push(newJobObject);
-    
-    localStorage.setItem("jobs", JSON.stringify(jobList));
     localStorage.setItem('sharedJob', 'true');
 
     const tempEl = document.createElement('p');
