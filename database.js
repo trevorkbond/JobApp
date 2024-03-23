@@ -16,6 +16,10 @@ function getUser(user) {
   return userCollection.findOne({ user: user });
 }
 
+function getSingleJob(jobID) {
+  return jobCollection.findOne({ jobID : jobID });
+}
+
 function getUserByToken(token) {
     return userCollection.findOne({ token: token });
 }
@@ -43,16 +47,29 @@ function editJob(job) {
   jobCollection.updateOne( { jobID : job.jobID },
     {
       $set: {
-        jobTitle : job.title,
-        companyName : job.company,
-        dueDate : job.date,
+        title : job.title,
+        company : job.company,
+        date : job.date,
         status : job.status,
-        jobLink : job.link,
+        link : job.link,
         contact : job.contact,
         jobID : job.jobID,
         notes : job.notes,
       }
-    })
+    });
+
+    return job;
+}
+
+function editJobStatus(status, jobID) {
+  jobCollection.updateOne( { jobID : jobID },
+    {
+      $set: {
+        status : status
+      }
+    });
+
+    return jobID;
 }
 
 function getJobsForUser(user) {
@@ -66,4 +83,7 @@ module.exports = {
     getUserByToken,
     addJob,
     getJobsForUser,
+    editJob,
+    editJobStatus,
+    getSingleJob,
 };

@@ -76,9 +76,9 @@ secureApiRouter.post('/jobs', (req, res) => {
   
 });
 
-secureApiRouter.get('/jobs/single/:jobID', (req, res) => {
+secureApiRouter.get('/jobs/single/:jobID', async (req, res) => {
   const jobID = parseInt(req.params.jobID);
-  foundJob = getJobFromID(jobs, jobID);
+  const foundJob = await DB.getSingleJob(jobID);
   res.send(foundJob);
 });
 
@@ -89,15 +89,13 @@ secureApiRouter.get('/jobs/:user', async (req, res) => {
 });
 
 secureApiRouter.put('/jobs', (req, res) => {
-  DB.editJob(req.body);
-  const filteredJobs = getFilteredJobs(jobs, req.body.user);
-  res.send(filteredJobs);
+  const job = DB.editJob(req.body);
+  res.send(job);
 });
 
 secureApiRouter.put('/jobs/:status', (req, res) => {
-  editJobStatus(jobs, req.params.status, req.body.jobID);
-  const filteredJobs = getFilteredJobs(jobs, req.body.user);
-  res.send(filteredJobs);
+  const jobID = DB.editJobStatus(req.params.status, req.body.jobID);
+  res.send(JSON.stringify(jobID));
 });
 
 secureApiRouter.delete('/jobs', (req, res) => {

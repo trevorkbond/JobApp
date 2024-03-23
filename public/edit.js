@@ -3,7 +3,7 @@ function updateStatusForm(status) {
     document.getElementById("status").innerText = status;
 }
 
-function loadJobFields() {
+async function loadJobFields() {
     if (localStorage.getItem('sharedJob') === 'true') {
         // THESE ARE CONSTANT VALS AND WILL CHANGE WITH WEBSOCKETS
         document.getElementById('jobTitle').value = "Software Development Intern";
@@ -14,15 +14,10 @@ function loadJobFields() {
     setDifferentTextIfSharedJob();
     const editJobID = localStorage.getItem('editJob');
     if (editJobID) {
-        let jobList = [];
-        const jobsText = localStorage.getItem("jobs");
-        if (jobsText) {
-            jobList = JSON.parse(jobsText);
-        }
-        const editJob = jobList[getIndexFromJobID(editJobID)];
+        const response = await fetch(`/api/jobs/single/${editJobID}`);
+        const editJob = await response.json();
         document.getElementById('jobTitle').value = editJob.title;
         document.getElementById('companyName').value = editJob.company;
-        console.log(editJob.date);
         document.getElementById('dueDate').value = convertDateFormat(editJob.date);
         updateStatusForm(editJob.status);
         document.getElementById('jobLink').value = editJob.link;
