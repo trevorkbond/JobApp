@@ -53,6 +53,11 @@ apiRouter.get('/user/:email', async (req, res) => {
   res.status(404).send({ msg: 'Unknown' });
 });
 
+apiRouter.delete('/auth/logout', (_req, res) => {
+  res.clearCookie(authCookieName);
+  res.status(204).end();
+});
+
 var secureApiRouter = express.Router();
 apiRouter.use(secureApiRouter);
 
@@ -62,6 +67,7 @@ secureApiRouter.use(async (req, res, next) => {
   if (user) {
     next();
   } else {
+    console.log('unauthorized req');
     res.status(401).send({ msg: 'Unauthorized' });
   }
 });
@@ -98,10 +104,9 @@ secureApiRouter.put('/jobs/:status', (req, res) => {
   res.send(JSON.stringify(jobID));
 });
 
-secureApiRouter.delete('/jobs', (req, res) => {
-  deleteJob(jobs, req.body);
-  const filteredJobs = getFilteredJobs(jobs, req.body.user);
-  res.send(filteredJobs);
+secureApiRouter.delete('/jobs', async (req, res) => {
+  const deleted = await DB.deleteJob(req.body);
+  res.send(deleted);
 });
 
 const port = 4000;

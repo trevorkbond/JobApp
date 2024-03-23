@@ -23,7 +23,10 @@ function addUserMenu() {
 
 function signOut() {
     localStorage.removeItem('userName');
-}
+    fetch(`/api/auth/logout`, {
+      method: 'delete',
+    }).then(() => (window.location.href = '/'));
+  }
 
 function addJobButtons(jobID) {
     const buttonsDiv = document.createElement('div');

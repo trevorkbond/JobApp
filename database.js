@@ -77,6 +77,11 @@ function getJobsForUser(user) {
   return jobs.toArray();
 }
 
+function deleteJob(job) {
+  jobCollection.deleteOne({ jobID : job.jobID });
+  return job;
+}
+
 module.exports = {
     getUser,
     createUser,
@@ -86,4 +91,5 @@ module.exports = {
     editJob,
     editJobStatus,
     getSingleJob,
+    deleteJob,
 };
