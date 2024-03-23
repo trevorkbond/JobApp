@@ -88,3 +88,11 @@ I implemented service endpoints in the following ways corresponding to the rubri
 - Your frontend calls third party service endpoints - I get a random quote from an API I found [here](https://forum.freecodecamp.org/t/free-api-inspirational-quotes-json-with-code-examples/311373) and display that quote on `index.html`. You can see it by adding a job, clicking on the job title on the main screen, then going to the share page.
 - Your backend provides service endpoints - my backend provides endpoints for adding, deleting, and editing jobs. Adding is more obvious, and you can delete or edit a job by clicking on the job title and selecting either button. Endpoints are also called to edit jobs when the job status or notes are changed on the main page.
 - Your frontend calls your service endpoints - done. Front end calls endpoints for all interactivity with jobs.
+
+## Login Deliverable
+I added database and login functionality in the following ways corresponding to the rubric:
+- Supports new user registration - new users are added to the database when using the `Register` option on `index.html`
+- Supports existing user authentication - existing users' passwords are checked, and an error appears if they give incorrect login credentials.
+- Stores application data in MongoDB - job information are stored in MongoDB
+- Stores and retrieves credentials in MongoDB - user information also stored in MongoDB
+- Restricts application functionality based upon authentication - employed secureApiRouter as used in the Simon example to make sure all requests after login are authenticated. I want to make this cleaner in the future and have error messages pop up on the frontend when a user tries to make an unauthorized request, but it does work, i.e., unauthorized requests are not carried out by the server and the server sends a 401 error. 
