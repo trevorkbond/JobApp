@@ -113,7 +113,7 @@ app.listen(port, function () {
   console.log(`Listening on port ${port}`);
 });
 
-let nextJobID = 0;
+let nextJobID;
 
 function setAuthCookie(res, authToken) {
   res.cookie(authCookieName, authToken, {
@@ -122,4 +122,12 @@ function setAuthCookie(res, authToken) {
     sameSite: 'strict',
   });
 }
+
+async function getLastJobID() {
+  const highestJobID = await DB.getHighestJobID();
+  nextJobID = highestJobID.jobID + 1;
+}
+
+getLastJobID();
+
 

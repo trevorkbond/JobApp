@@ -1,3 +1,4 @@
 trevorbond-cs260server-keypair.pem
 node_modules
 dbConfig.json
+keys/260startupkey.pem

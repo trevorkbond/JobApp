@@ -82,6 +82,10 @@ function deleteJob(job) {
   return job;
 }
 
+function getHighestJobID() {
+  return jobCollection.findOne({}, { sort: { jobID: -1 } });
+}
+
 module.exports = {
     getUser,
     createUser,
@@ -92,4 +96,5 @@ module.exports = {
     editJobStatus,
     getSingleJob,
     deleteJob,
+    getHighestJobID,
 };
