@@ -4,6 +4,7 @@ const DB = require('./database.js');
 const bcrypt = require('bcrypt');
 const app = express();
 const authCookieName = 'token';
+const { peerProxy } = require('./peerProxy.js');
 
 app.use(express.json());
 app.use(express.static('public'));
@@ -109,7 +110,7 @@ secureApiRouter.delete('/jobs', async (req, res) => {
 });
 
 const port = 4000;
-app.listen(port, function () {
+const httpService = app.listen(port, function () {
   console.log(`Listening on port ${port}`);
 });
 
@@ -129,5 +130,7 @@ async function getLastJobID() {
 }
 
 getLastJobID();
+peerProxy(httpService);
+
 
 
