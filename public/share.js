@@ -38,7 +38,7 @@ async function loadQuote() {
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
-  }
+}
 
 loadShareMessage();
 loadQuote();

@@ -48,7 +48,9 @@ function addJobButtons(jobID) {
     shareButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
     shareButton.textContent = 'Share';
     shareButton.setAttribute('id', 'share' + jobID);
-    shareButton.setAttribute('onclick', 'addShareJobToLocalStorage(this)');
+    shareButton.setAttribute('data-bs-toggle', 'modal');
+    shareButton.setAttribute('data-bs-target', '#shareModal');
+    shareButton.setAttribute('onclick', 'addShareJobIDLocalStorage(this)');
 
     buttonsDiv.appendChild(editButton);
     buttonsDiv.appendChild(shareButton);
@@ -134,16 +136,18 @@ function addEditJobToLocalStorage(editEl) {
     window.location.href = './edit.html';
 }
 
-function addShareJobToLocalStorage(shareEl) {
+function addShareJobIDLocalStorage(shareEl) {
     localStorage.setItem('shareJob', getJobIDFromID(shareEl.id));
-    let jobs = [];
-    const jobsText = localStorage.getItem("jobs");
-    if (jobsText) {
-        jobs = JSON.parse(jobsText);
-    }
-    const shareJob = jobs[getIndexFromJobID(getJobIDFromID(shareEl.id))];
-    localStorage.setItem('shareMessage', `Who would you like to share the ${shareJob.title} position at ${shareJob.company} with?`);
-    window.location.href = './share.html';
+}
+
+async function shareJob() {
+    const shareJobID = localStorage.getItem('shareJob');
+    localStorage.removeItem('shareJob');
+    const response = await fetch(`/api/jobs/single/${shareJobID}`);
+    let foundJob = await response.json();
+    foundJob.shareToUser = document.querySelector('#friendShare').value;
+    this.socket.send(JSON.stringify(foundJob));
+
 }
 
 async function loadJobs(refresh = false) {
@@ -376,14 +380,32 @@ function configureWebSocket() {
     //   this.displayMsg('system', 'game', 'disconnected');
     };
     this.socket.onmessage = async (event) => {
-    //   const msg = JSON.parse(await event.data.text());
-    //   if (msg.type === GameEndEvent) {
-    //     this.displayMsg('player', msg.from, `scored ${msg.value.score}`);
-    //   } else if (msg.type === GameStartEvent) {
-    //     this.displayMsg('player', msg.from, `started a new game`);
-    //   }
+        console.log('received some message');
+      const msg = JSON.parse(await event.data.text());
+      console.log(msg);
     };
 }
 
+async function loadQuote() {
+    fetch("https://type.fit/api/quotes")
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+        const quoteIndex = Math.floor(Math.random() * 15);
+        const quote = data[quoteIndex].text;
+        const author = data[quoteIndex].author;
+        const editedAuthor = author.match(/^(.*?),/);
+        const finalAuthor = editedAuthor[1];
+
+        const quoteEl = document.getElementById('quote');
+        quoteEl.innerHTML = `
+            <p style="margin-top: 1em;"><i>${quote}</i></p>
+            <p style="margin-bottom: 1em;"> - ${finalAuthor}</p>
+        `
+    });
+}
+
 load();
+loadQuote();
 configureWebSocket();

@@ -55,6 +55,29 @@
             </div>
         </div>
 
+        <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Share Job</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                        <div class="modal-body" style="display: flex; flex-direction: column; justify-content: center;">
+                            <p>Who would you like to share this job with?</p>
+                            <div class="form-group form-group-margin-less">
+                                <input type="text" class="form-control" id="friendShare" aria-describedby="friendHelp" placeholder="Friend username..." required>
+                                <small id="friendHelp" class="form-text text-muted">Username of friend to share job with</small>
+                            </div>
+                            <div id="quote"></div>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" onclick="shareJob()">Share Job</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <footer>
