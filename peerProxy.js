@@ -1,5 +1,6 @@
 const { WebSocketServer } = require('ws');
 const uuid = require('uuid');
+const url = require('url');
 
 function peerProxy(httpServer) {
   // Create a websocket object
@@ -15,8 +16,9 @@ function peerProxy(httpServer) {
   // Keep track of all the connections so we can forward messages
   let connections = [];
 
-  wss.on('connection', (ws) => {
-    const connection = { id: uuid.v4(), alive: true, ws: ws };
+  wss.on('connection', (ws, req) => {
+    const username = url.parse(req.url, true).query.username;
+    const connection = { id: uuid.v4(), alive: true, ws: ws, username: username };
     connections.push(connection);
 
     // Forward messages to everyone except the sender
