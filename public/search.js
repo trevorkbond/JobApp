@@ -8,49 +8,91 @@ async function search() {
         const jobsJSON = await response.json();
         const jobList = jobsJSON.jobs;
 
-        if (jobs.length) {
-            jobs.forEach((job) => {
+        if (jobList.length) {
+            localStorage.setItem("searchJobs", JSON.stringify(jobList));
+            jobList.forEach((job) => {
                 addOneJobToDOM(job);
             });
         }
+        document.querySelector("#show-post-search").setAttribute("style", "display: table;");
+        loadPopovers();
 
     } catch {
 
     }
 }
 
-function addOneJobToDOM() {
+function addOneJobToDOM(job) {
     const jobTitle = job.jobTitle;
     const companyName = job.companyName;
     const jobLink = job.url;
     const notes = job.jobExcerpt;
+    const jobID = job.id;
 
     const rowHTML = `
             <td class="item1 card-entry"><h4 class="mobile-header">Position</h4>
                 <a class="job-title-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="">` + jobTitle + `</a></td>
             <td class="item2 card-entry"><h4 class="mobile-header">Company</h4>` + companyName + `</td>
-            <td class="item3 card-entry"><h4 class="mobile-header">Due</h4>` + dueDate + `</td>
-            <td class="item4 card-entry"><h4 class="mobile-header">Status</h4>
-                <a class="btn btn-secondary btn-light dropdown-toggle dropdown-mobile" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  ` + status + `
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" onclick="updateStatusTable('Not Applied', this.parentElement.parentElement.previousElementSibling);">Not Applied</a></li>
-                  <li><a class="dropdown-item" onclick="updateStatusTable('Applied', this.parentElement.parentElement.previousElementSibling);">Applied</a></li>
-                  <li><a class="dropdown-item" onclick="updateStatusTable('Invited for Interview', this.parentElement.parentElement.previousElementSibling);">Invited for Interview</a></li>
-                  <li><a class="dropdown-item" onclick="updateStatusTable('Interviewed', this.parentElement.parentElement.previousElementSibling);">Interviewed</a></li>
-                  <li><a class="dropdown-item" onclick="updateStatusTable('Received Offer', this.parentElement.parentElement.previousElementSibling);">Received Offer</a></li>
-                  <li><a class="dropdown-item" onclick="updateStatusTable('Application Rejected', this.parentElement.parentElement.previousElementSibling);">Application Rejected</a></li>
-                </ul>
-            </td>
             <td class="td-center item5 card-entry"><h4 class="mobile-header">Link</h4><a href="` + jobLink + `" target="_blank"><img src="./icons/link.svg" class="table-icon"></a></td>
-            <td class="td-center item6 card-entry"><h4 class="mobile-header">Contact</h4>
-                <button type="button" class="no-show-button" data-bs-toggle="popover" data-bs-content="` + contact + `">
-                    <img src="./icons/envelope.svg" class="table-icon">
-                </button>
-            </td>
-            <td class="td-center item7 card-entry"><h4 class="mobile-header">Notes</h4><button class="no-show-button" data-bs-toggle="modal" data-bs-target="#noteModal` + jobID + `">
+            <td class="td-center item7 card-entry"><h4 class="mobile-header">Description</h4><button class="no-show-button" data-bs-toggle="modal" data-bs-target="#noteModal` + jobID + `">
                 <img src="./icons/journal.svg" class="table-icon">
             </button></td>
         `;
+
+        const modalHTML = `
+        <div class="modal fade" id="noteModal` + jobID + `" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Notes</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <p>` + notes + `</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+
+    const row = document.createElement('tr');
+    row.setAttribute('id', jobID);
+    row.innerHTML = rowHTML;
+    const tableParent = document.getElementById('add-rows');
+    tableParent.appendChild(row);
+
+    const mainEl = document.querySelector('main');
+    const modalEl = document.createElement('div');
+    modalEl.innerHTML = modalHTML;
+    mainEl.appendChild(modalEl);
+}
+
+function loadPopovers() {
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => {
+        const popoverOptions = {};
+        if (popoverTriggerEl.classList.contains('job-title-popover')) {
+            popoverOptions.html = true;
+            popoverOptions.content = addJobButtons(popoverTriggerEl.parentElement.parentElement.id);
+        }
+        return new bootstrap.Popover(popoverTriggerEl, popoverOptions);
+    });
+}
+
+function addJobButtons(jobID) {
+    const buttonsDiv = document.createElement('div');
+    buttonsDiv.classList.add('buttons-container');
+    
+    const addButton = document.createElement('button');
+    addButton.setAttribute('id', 'add' + jobID);
+    addButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
+    addButton.setAttribute('onclick', 'addSearchJobToLocalStorage(this)');
+    addButton.textContent = 'Add';
+
+    buttonsDiv.appendChild(addButton);
+
+    return buttonsDiv;
 }
