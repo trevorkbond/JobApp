@@ -1,5 +1,7 @@
 async function search() {
     const keyWords = document.querySelector("#tags").value;
+    localStorage.setItem('lastSearch', keyWords);
+    localStorage.removeItem('searchJobs');
     const uriKeyWords = encodeURI(keyWords);
     const url = `https://jobicy.com/api/v2/remote-jobs?count=10&tag=${uriKeyWords}`;
 
@@ -9,16 +11,23 @@ async function search() {
         const jobList = jobsJSON.jobs;
 
         if (jobList.length) {
+            document.querySelector("#add-rows").innerHTML = "";
             localStorage.setItem("searchJobs", JSON.stringify(jobList));
             jobList.forEach((job) => {
                 addOneJobToDOM(job);
             });
+        } else if (jobList.statusCode === 404) {
+            document.querySelector("#add-rows").innerHTML = "";
+            const modalEl = document.querySelector('#msgModal');
+            modalEl.querySelector('.modal-body').textContent = `⚠ Error: Your search returned no results. Please try again.`;
+            const msgModal = new bootstrap.Modal(modalEl, {});
+            msgModal.show();
         }
         document.querySelector("#show-post-search").setAttribute("style", "display: table;");
         loadPopovers();
 
     } catch {
-
+        console.log('error calling 3rd party API');
     }
 }
 
@@ -96,3 +105,27 @@ function addJobButtons(jobID) {
 
     return buttonsDiv;
 }
+
+function getJobIDFromID(id) {
+    return id.replace(/^\D+/g, '');
+}
+
+function addSearchJobToLocalStorage(addEl) {
+    localStorage.setItem('searchJob', getJobIDFromID(addEl.id));
+    window.location.href = './add.html';
+}
+
+function loadLastSearch() {
+    document.querySelector("#tags").value = localStorage.getItem('lastSearch');
+    const jobListText = localStorage.getItem('searchJobs');
+    if (jobListText) {
+        const jobList = JSON.parse(jobListText);
+        jobList.forEach((job) => {
+            addOneJobToDOM(job);
+        });
+    }
+    document.querySelector("#show-post-search").setAttribute("style", "display: table;");
+    loadPopovers();
+}
+
+loadLastSearch();

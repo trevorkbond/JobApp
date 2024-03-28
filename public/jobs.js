@@ -322,6 +322,11 @@ async function saveNote(buttonEl) {
     }
 }
 
+function cancelShareJob() {
+    localStorage.removeItem('shareJob');
+    localStorage.removeItem('shareMessage');
+}
+
 function getIndexFromJobID(id) {
     let jobs = [];
     const jobsText = localStorage.getItem("jobs");
@@ -386,26 +391,5 @@ function configureWebSocket() {
     };
 }
 
-async function loadQuote() {
-    fetch("https://type.fit/api/quotes")
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(data) {
-        const quoteIndex = Math.floor(Math.random() * 15);
-        const quote = data[quoteIndex].text;
-        const author = data[quoteIndex].author;
-        const editedAuthor = author.match(/^(.*?),/);
-        const finalAuthor = editedAuthor[1];
-
-        const quoteEl = document.getElementById('quote');
-        quoteEl.innerHTML = `
-            <p style="margin-top: 1em;"><i>${quote}</i></p>
-            <p style="margin-bottom: 1em;"> - ${finalAuthor}</p>
-        `
-    });
-}
-
 load();
-loadQuote();
 configureWebSocket();

@@ -14,6 +14,7 @@ async function deleteJob() {
             localStorage.setItem('jobs', JSON.stringify(jobs));
             localStorage.removeItem('delJob');
             localStorage.removeItem('delJobMessage');
+            window.location.href = './jobs.html';
         } catch {
             let jobList = [];
             const jobsText = localStorage.getItem("jobs");
@@ -24,6 +25,7 @@ async function deleteJob() {
             localStorage.setItem('jobs', JSON.stringify(jobList));
             localStorage.removeItem('delJob');
             localStorage.removeItem('delJobMessage');
+            window.location.href = './jobs.html';
         }
     }
 }
@@ -31,6 +33,7 @@ async function deleteJob() {
 function cancelDelJob() {
     localStorage.removeItem('delJob');
     localStorage.removeItem('delJobMessage');
+    window.location.href = './jobs.html';
 }
 
 
