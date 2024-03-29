@@ -96,3 +96,10 @@ I added database and login functionality in the following ways corresponding to 
 - Stores application data in MongoDB - job information are stored in MongoDB
 - Stores and retrieves credentials in MongoDB - user information also stored in MongoDB
 - Restricts application functionality based upon authentication - employed secureApiRouter as used in the Simon example to make sure all requests after login are authenticated. I want to make this cleaner in the future and have error messages pop up on the frontend when a user tries to make an unauthorized request, but it does work, i.e., unauthorized requests are not carried out by the server and the server sends a 401 error. 
+
+## Websocket Deliverable
+Did the following to implement Websockets:
+- Backend listens for WebSocket connection - done.
+- Frontend makes WebSocket connection - done, frontent makes ws connection in `jobs.js`.
+- Data sent over WebSocket connection - done, when jobs are shared with another existing user, if that user is online and they are on the `jobs.html` page, they will get that shared job added to their notifications list and have the option to add it to their tracked jobs. If the user is not online or is not on `jobs.html`, the server will instead add that job to a shared collection in the database, and the user the job was shared with will have all shared jobs since they were gone loaded upon logging in. The key to know if you have shared jobs to either add or ignore is the notification icon will either have a slash through it or not.
+- WebSocket data displayed in the application interface - done, shared jobs are populated into the notification list.

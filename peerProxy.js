@@ -34,7 +34,6 @@ function peerProxy(httpServer) {
                 }
             });
             if (!shared) {
-                console.log("shareToUser wasn't online, adding to shared DB");
                 DB.addSharedJob(jsonData);
             }
         });
