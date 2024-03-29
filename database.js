@@ -11,6 +11,7 @@ const url = `mongodb+srv://${userName}:${password}@${hostname}`;
 const client = new MongoClient(url);
 const userCollection = client.db('startup').collection('user');
 const jobCollection = client.db('startup').collection('job');
+const sharedCollection = client.db('startup').collection('shared');
 
 function getUser(user) {
   return userCollection.findOne({ user: user });
@@ -40,6 +41,11 @@ async function createUser(userName, password) {
 function addJob(job, jobID) {
   job.jobID = jobID;
   jobCollection.insertOne(job);
+  return job;
+}
+
+function addSharedJob(job) {
+  sharedCollection.insertOne(job);
   return job;
 }
 
@@ -77,8 +83,18 @@ function getJobsForUser(user) {
   return jobs.toArray();
 }
 
+function getSharedJobsForUser(user) {
+  const jobs = sharedCollection.find({ shareToUser : user });
+  return jobs.toArray();
+}
+
 function deleteJob(job) {
   jobCollection.deleteOne({ jobID : job.jobID });
+  return job;
+}
+
+function deleteSharedJob(job) {
+  sharedCollection.deleteOne({ user : job.user, shareToUser : job.shareToUser, title : job.title, company : job.company});
   return job;
 }
 
@@ -97,4 +113,7 @@ module.exports = {
     getSingleJob,
     deleteJob,
     getHighestJobID,
+    getSharedJobsForUser,
+    addSharedJob,
+    deleteSharedJob,
 };

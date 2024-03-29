@@ -79,6 +79,9 @@ async function editJobLocalStorage() {
             body: JSON.stringify(editJobObject),
         });
         const jobs = await response.json();
+        const sharedJobs = JSON.parse(localStorage.getItem('sharedJobList'));
+        sharedJobs.splice(parseInt(editJobID), 1);
+        localStorage.setItem('sharedJobList', JSON.stringify(sharedJobs));
         localStorage.setItem('jobs', JSON.stringify(jobs));
         localStorage.removeItem('editJob');
         localStorage.removeItem('sharedJob');

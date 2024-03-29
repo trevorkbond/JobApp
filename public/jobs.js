@@ -23,6 +23,7 @@ function addUserMenu() {
 
 function signOut() {
     localStorage.removeItem('userName');
+    localStorage.removeItem('sharedJobList');
     fetch(`/api/auth/logout`, {
         method: 'delete',
     }).then(() => (window.location.href = '/'));
@@ -86,11 +87,22 @@ function getNotificationEl(jobMessage, index) {
     return popoverDiv;
 }
 
-function ignoreNotification(el) {
+async function ignoreNotification(el) {
+
+    const delJob = sharedJobList[getJobIDFromID(el.id)];
 
     sharedJobList.splice(getJobIDFromID(el.id), 1);
     localStorage.setItem('sharedJobList', JSON.stringify(sharedJobList));
-    updatedSharedJobDOM();
+
+    const response = await fetch('/api/jobs/shared', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+      },
+        body: JSON.stringify(delJob),
+      });
+
+    updateSharedJobDOM();
 
 }
 
@@ -350,7 +362,20 @@ function getJobIDFromID(id) {
     return id.replace(/^\D+/g, '');
 }
 
-function updatedSharedJobDOM() {
+async function loadSharedJobsFromDB() {
+    const sharedJobListText = localStorage.getItem('sharedJobList');
+    if (sharedJobListText) {
+        updateSharedJobDOM();
+    } else {
+        const username = localStorage.getItem('userName');
+        const response = await fetch(`/api/jobs/shared/${username}`)
+        const sharedJobs = await response.json();
+        localStorage.setItem('sharedJobList', JSON.stringify(sharedJobs));
+        updateSharedJobDOM();
+    }
+}
+
+function updateSharedJobDOM() {
     const notiModal = document.getElementById('notificationList');
     const sharedJobListText = localStorage.getItem('sharedJobList');
     if (sharedJobListText) {
@@ -397,11 +422,11 @@ function configureWebSocket() {
     this.socket.onmessage = async (event) => {
         const msg = JSON.parse(await event.data.text());
         updateSharedJobs(msg);
-        updatedSharedJobDOM();
+        updateSharedJobDOM();
     };
 }
 
 load();
 configureWebSocket();
 let sharedJobList = [];
-updatedSharedJobDOM();
+loadSharedJobsFromDB();

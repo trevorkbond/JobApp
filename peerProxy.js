@@ -1,4 +1,5 @@
 const { WebSocketServer } = require('ws');
+const DB = require('./database.js');
 const uuid = require('uuid');
 const url = require('url');
 
@@ -22,14 +23,20 @@ function peerProxy(httpServer) {
         connections.push(connection);
 
         // Forward messages to user specified in sent message
-        ws.on('message', function message(data) {
+        ws.on('message', async function message(data) {
             const jsonData = JSON.parse(data);
             const username = jsonData.shareToUser;
+            let shared = false;
             connections.forEach((c) => {
                 if (c.username === username) {
                     c.ws.send(data);
+                    shared = true;
                 }
             });
+            if (!shared) {
+                console.log("shareToUser wasn't online, adding to shared DB");
+                DB.addSharedJob(jsonData);
+            }
         });
 
         // Remove the closed connection so we don't try to forward anymore
