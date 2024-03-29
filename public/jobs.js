@@ -24,14 +24,14 @@ function addUserMenu() {
 function signOut() {
     localStorage.removeItem('userName');
     fetch(`/api/auth/logout`, {
-      method: 'delete',
+        method: 'delete',
     }).then(() => (window.location.href = '/'));
-  }
+}
 
 function addJobButtons(jobID) {
     const buttonsDiv = document.createElement('div');
     buttonsDiv.classList.add('buttons-container');
-    
+
     const editButton = document.createElement('button');
     editButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
     editButton.setAttribute('id', 'edit' + jobID);
@@ -59,17 +59,17 @@ function addJobButtons(jobID) {
     return buttonsDiv;
 }
 
-function getNotificationEl(jobMessage) {
+function getNotificationEl(jobMessage, index) {
     const popoverDiv = document.createElement('div');
     popoverDiv.setAttribute('style', 'border-bottom: 1px solid black; margin-top: .5em;');
     const popoverText = document.createElement('p');
     popoverDiv.textContent = jobMessage;
     const buttonsDiv = document.createElement('div');
     buttonsDiv.classList.add('buttons-container');
-    
+
     const addButton = document.createElement('button');
     addButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override-small');
-    addButton.setAttribute('onclick', 'addSharedJobToLocalStorage()');
+    addButton.setAttribute('onclick', 'addSharedJobToLocalStorage(this.parentElement.parentElement)');
     addButton.textContent = 'Add';
 
     const ignoreButton = document.createElement('button');
@@ -81,13 +81,17 @@ function getNotificationEl(jobMessage) {
     buttonsDiv.appendChild(ignoreButton);
     popoverDiv.appendChild(popoverText);
     popoverDiv.appendChild(buttonsDiv);
+    popoverDiv.setAttribute('id', 'noti' + index);
 
     return popoverDiv;
 }
 
 function ignoreNotification(el) {
-    el.remove();
-    updateNotificationIcon();
+
+    sharedJobList.splice(getJobIDFromID(el.id), 1);
+    localStorage.setItem('sharedJobList', JSON.stringify(sharedJobList));
+    updatedSharedJobDOM();
+
 }
 
 function updateNotificationIcon() {
@@ -98,23 +102,24 @@ function updateNotificationIcon() {
     }
 }
 
-function addSharedJobToLocalStorage() {
-    const newJobObject = {
-        title: "Software Developer Intern",
-        company: "Lucid",
-        date: "12/31/2024",
-        status: "",
-        link: "https://lucidchart.com",
-        contact: "example@lucid.com",
-        notes: ""
+function updateSharedJobs(sharedJob) {
+    const sharedJobListText = localStorage.getItem('sharedJobList');
+    if (sharedJobListText) {
+        sharedJobList = JSON.parse(sharedJobListText);
+        sharedJobList.push(sharedJob);
+        localStorage.setItem('sharedJobList', JSON.stringify(sharedJobList));
+    } else {
+        sharedJobList.push(sharedJob);
+        localStorage.setItem('sharedJobList', JSON.stringify(sharedJobList));
     }
+}
 
-    // NOTE: THESE ARE HARDCODED VALUES FOR THE TIME BEING. ACTUAL SHARED VALUES WILL BE IMPLEMENTED BY WEBSOCKETS
-    
+function addSharedJobToLocalStorage(newJobEl) {
+    const index = getJobIDFromID(newJobEl.id);
     localStorage.setItem('sharedJob', 'true');
 
     const tempEl = document.createElement('p');
-    tempEl.setAttribute('id', 'temp' + newJobObject.jobID);
+    tempEl.setAttribute('id', 'temp' + index);
     addEditJobToLocalStorage(tempEl);
     window.location.href = './edit.html';
 }
@@ -174,7 +179,7 @@ async function loadJobs(refresh = false) {
         jobs.forEach((job) => {
             addOneJobToDOM(job);
         });
-        
+
     }
     const finalRow = document.createElement('tr');
     finalRow.innerHTML = (`
@@ -267,7 +272,7 @@ async function updateStatusTable(status, el) {
     const rowParentEl = el.parentElement.parentElement;
     el.textContent = status;
     const jobID = rowParentEl.id;
-    const editJobObject = { jobID: parseInt(jobID), user: localStorage.getItem('userName') }; 
+    const editJobObject = { jobID: parseInt(jobID), user: localStorage.getItem('userName') };
 
     try {
         let username = localStorage.getItem('userName');
@@ -275,10 +280,10 @@ async function updateStatusTable(status, el) {
         const response = await fetch(`/api/jobs/${status}`, {
             method: 'PUT',
             headers: {
-              'Content-Type': 'application/json'
-          },
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(editJobObject),
-          });
+        });
         jobs = await response.json();
         localStorage.setItem('jobs', JSON.stringify(jobs));
     } catch {
@@ -303,11 +308,11 @@ async function saveNote(buttonEl) {
 
     try {
         const response = await fetch('/api/jobs', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-        },
-          body: JSON.stringify(foundJob),
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(foundJob),
         });
         const jobs = await response.json();
         localStorage.setItem('jobs', JSON.stringify(jobs));
@@ -345,10 +350,19 @@ function getJobIDFromID(id) {
     return id.replace(/^\D+/g, '');
 }
 
-function notifySharedJob() {
+function updatedSharedJobDOM() {
     const notiModal = document.getElementById('notificationList');
-    const newSharedJob = getNotificationEl("AdamHubbs shared a Software Developer Intern position at Lucid with you. Would you like to add or ignore it?");
-    notiModal.appendChild(newSharedJob);
+    const sharedJobListText = localStorage.getItem('sharedJobList');
+    if (sharedJobListText) {
+        sharedJobList = JSON.parse(sharedJobListText);
+    }
+    notiModal.innerHTML = "";
+    let i = 0;
+    sharedJobList.forEach((job) => {
+        const newSharedJob = getNotificationEl(`${job.user} shared a ${job.title} position at ${job.company} with you. Would you like to add or ignore it?`, i++);
+        notiModal.appendChild(newSharedJob);
+    });
+    
     updateNotificationIcon();
 }
 
@@ -370,7 +384,6 @@ function recreatePopovers() {
 async function load() {
     await loadJobs();
     recreatePopovers();
-    setInterval(notifySharedJob, 10000);
 }
 
 function configureWebSocket() {
@@ -379,17 +392,16 @@ function configureWebSocket() {
     this.socket = new WebSocket(`${protocol}://${window.location.host}/ws?username=${username}`);
 
     this.socket.onopen = (event) => {
-      console.log("ws connection opened");
-    };
-    this.socket.onclose = (event) => {
-    //   this.displayMsg('system', 'game', 'disconnected');
+        console.log("ws connection opened");
     };
     this.socket.onmessage = async (event) => {
-        console.log('received some message');
-      const msg = JSON.parse(await event.data.text());
-      console.log(msg);
+        const msg = JSON.parse(await event.data.text());
+        updateSharedJobs(msg);
+        updatedSharedJobDOM();
     };
 }
 
 load();
 configureWebSocket();
+let sharedJobList = [];
+updatedSharedJobDOM();

@@ -5,11 +5,17 @@ function updateStatusForm(status) {
 
 async function loadJobFields() {
     if (localStorage.getItem('sharedJob') === 'true') {
-        // THESE ARE CONSTANT VALS AND WILL CHANGE WITH WEBSOCKETS
-        document.getElementById('jobTitle').value = "Software Development Intern";
-        document.getElementById('companyName').value = "Lucid";
-        document.getElementById('jobLink').value = "https://lucidchart.com";
-        document.getElementById('contact').value = "example@lucid.com";
+        setDifferentTextIfSharedJob();
+        const sharedJobList = JSON.parse(localStorage.getItem('sharedJobList'));
+        const sharedJobID = localStorage.getItem('editJob');
+        const sharedJob = sharedJobList[parseInt(sharedJobID)];
+        document.getElementById('jobTitle').value = sharedJob.title;
+        document.getElementById('companyName').value = sharedJob.company;
+        document.getElementById('dueDate').value = convertDateFormat(sharedJob.date);
+        document.getElementById('jobLink').value = sharedJob.link;
+        document.getElementById('contact').value = sharedJob.contact;
+        document.getElementById('notes').value = sharedJob.notes;
+        return;
     }
     setDifferentTextIfSharedJob();
     const editJobID = localStorage.getItem('editJob');

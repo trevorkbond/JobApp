@@ -26,7 +26,6 @@ function peerProxy(httpServer) {
             const jsonData = JSON.parse(data);
             const username = jsonData.shareToUser;
             connections.forEach((c) => {
-                console.log(c.username);
                 if (c.username === username) {
                     c.ws.send(data);
                 }
