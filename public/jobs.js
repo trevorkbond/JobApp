@@ -423,6 +423,9 @@ function configureWebSocket() {
         const msg = JSON.parse(await event.data.text());
         updateSharedJobs(msg);
         updateSharedJobDOM();
+        const modalEl = document.querySelector('#notificationModal');
+        const msgModal = new bootstrap.Modal(modalEl, {});
+        msgModal.show();
     };
 }
 
