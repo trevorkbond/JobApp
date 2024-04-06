@@ -5,7 +5,11 @@
     box-sizing: border-box;
 }
 
-html {
+#root {
+    height: 100%;
+}
+
+html, .app, body {
     height: 100%;
 } 
 
@@ -65,11 +69,10 @@ img {
     width: 25px;
 }
 
-body {
+.app {
     margin: 0;
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
 header {
