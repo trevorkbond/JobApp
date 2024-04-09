@@ -83,8 +83,10 @@ secureApiRouter.post('/jobs', (req, res) => {
 });
 
 secureApiRouter.get('/jobs/single/:jobID', async (req, res) => {
+  console.log(req.params.jobID);
   const jobID = parseInt(req.params.jobID);
   const foundJob = await DB.getSingleJob(jobID);
+  console.log(JSON.stringify(foundJob));
   res.send(foundJob);
 });
 
