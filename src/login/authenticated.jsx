@@ -24,7 +24,7 @@ export function Authenticated(props) {
             <div className="signin-form">
                 <div style={{ width: 'fit-content', border: 'solid thin black', padding: '2em', borderRadius: '2em' }}>
                     <h2>Welcome back, {userName}</h2>
-                    <p>Continue to view your jobs or logout</p>
+                    <p>Continue to view your jobs</p>
                     <div className="buttons-container">
                         <button type="button" className="btn btn-dark" style={{marginRight: '.5em'}} onClick={() => navigate('/jobs')}>View jobs</button>
                         <button type="button" className="btn btn-dark"

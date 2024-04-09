@@ -1,4 +1,5 @@
 import React from 'react';
+import { MessageDialog } from './messageDialog';
 
 export function Unauthenticated(props) {
     const [userName, setUserName] = React.useState(props.userName);
@@ -24,13 +25,10 @@ export function Unauthenticated(props) {
 
         if (response.ok) {
             localStorage.setItem('userName', userName);
-            window.location.href = 'jobs.html';
+            props.onLogin(userName);
         } else {
             const body = await response.json();
-            const modalEl = document.querySelector('#msgModal');
-            modalEl.querySelector('.modal-body').textContent = `⚠ Error: ${body.msg}`;
-            const msgModal = new bootstrap.Modal(modalEl, {});
-            msgModal.show();
+            setDisplayError(`⚠ Error: ${body.msg}`);
         }
     }
 
@@ -38,26 +36,26 @@ export function Unauthenticated(props) {
         <div className='app'>
             <div className="signin-upper-padding"></div>
             <div className="signin-form">
-                <div style={{width: 'fit-content', border: 'solid thin black', padding: '2em', borderRadius: '2em'}}>
+                <div style={{ width: 'fit-content', border: 'solid thin black', padding: '2em', borderRadius: '2em' }}>
                     <h2>Sign in</h2>
                     <p>Sign in or create an account to access JobApp</p>
                     <form>
                         <div className="form-group form-group-margin">
                             <label>Username</label>
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 className="form-control"
                                 aria-describedby="usernameHelp"
-                                placeholder="Enter username" 
+                                placeholder="Enter username"
                                 value={userName}
                                 onChange={(e) => setUserName(e.target.value)}
                             />
                         </div>
                         <div className="form-group form-group-margin">
                             <label>Password</label>
-                            <input 
-                                type="password" 
-                                className="form-control" 
+                            <input
+                                type="password"
+                                className="form-control"
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Password" />
                         </div>
@@ -70,6 +68,7 @@ export function Unauthenticated(props) {
                     </form>
                 </div>
             </div>
+            <MessageDialog message={displayError} onHide={() => setDisplayError(null)} />
         </div>
     )
 }
