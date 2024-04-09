@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
 import { AuthState } from './login/authState';
+import { Jobs } from './jobs/jobs'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
@@ -39,6 +40,7 @@ export default function App() {
                     }
                         exact
                     />
+                    <Route path='/jobs' element={<Jobs />} />
                 </Routes>
 
                 <footer>
