@@ -138,10 +138,6 @@ main {
     padding: 0 1em 0 1em;
 }
 
-.inner-component-padding {
-    padding: 0 1em 0 1em;
-}
-
 .signin-upper-padding {
     flex: .2;
 }

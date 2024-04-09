@@ -14,7 +14,6 @@ export function Authenticated(props) {
             })
             .finally(() => {
                 localStorage.removeItem('userName');
-                localStorage.removeItem('sharedJobList');
                 props.onLogout();
             });
     }
@@ -24,7 +23,7 @@ export function Authenticated(props) {
             <div className="signin-upper-padding"></div>
             <div className="signin-form">
                 <div style={{ width: 'fit-content', border: 'solid thin black', padding: '2em', borderRadius: '2em' }}>
-                    <h2>Welcome, {userName}</h2>
+                    <h2>Welcome back, {userName}</h2>
                     <p>Continue to view your jobs</p>
                     <div className="buttons-container">
                         <button type="button" className="btn btn-dark" style={{marginRight: '.5em'}} onClick={() => navigate('/jobs')}>View jobs</button>
