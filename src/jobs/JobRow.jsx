@@ -1,5 +1,6 @@
 import React from 'react';
 import { JobDropdown } from './JobDropdown';
+import { JobTitlePopover } from './JobTitlePopover';
 
 export function JobRow(props) {
     const user = props.job.user;
@@ -12,8 +13,9 @@ export function JobRow(props) {
     const jobID = props.job.jobID;
     return (
         <tr id={props.job.jobID}>
-            <td className="item1 card-entry"><h4 className="mobile-header">Position</h4>
-                <a className="job-title-popover" tabIndex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="">{jobTitle}</a></td>
+            {/* <td className="item1 card-entry"><h4 className="mobile-header">Position</h4>
+                <a className="job-title-popover" tabIndex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="">{jobTitle}</a></td> */}
+            <td className="item1 card-entry"><h4 className="mobile-header">Position</h4><JobTitlePopover jobID={jobID} title={jobTitle}></JobTitlePopover></td>
             <td className="item2 card-entry"><h4 className="mobile-header">Company</h4>{companyName}</td>
             <td className="item3 card-entry"><h4 className="mobile-header">Due</h4>{dueDate}</td>
             <td className="item4 card-entry">

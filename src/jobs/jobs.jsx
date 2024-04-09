@@ -193,7 +193,6 @@ export function Jobs(props) {
     const jobRows = [];
     if (jobs.length) {
         for (const [i, job] of jobs.entries()) {
-            console.log(job);
             jobRows.push(
                 <JobRow job={job} key={i}/>
             );
