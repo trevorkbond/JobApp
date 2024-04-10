@@ -165,6 +165,10 @@ main {
     flex: .2;
 }
 
+#personIcon:hover {
+    cursor: pointer;
+}
+
 .signin-form {
     display: flex;
     flex-direction: column;

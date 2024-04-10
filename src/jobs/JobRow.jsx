@@ -23,11 +23,11 @@ export function JobRow(props) {
     );
     return (
         <tr id={props.job.jobID}>
-            <td className="item1 card-entry"><h4 className="mobile-header">Position</h4><JobTitlePopover jobID={jobID} title={jobTitle}></JobTitlePopover></td>
+            <td className="item1 card-entry"><h4 className="mobile-header">Position</h4><JobTitlePopover jobID={jobID} title={jobTitle} handleEdit={props.handleEdit}></JobTitlePopover></td>
             <td className="item2 card-entry"><h4 className="mobile-header">Company</h4>{companyName}</td>
             <td className="item3 card-entry"><h4 className="mobile-header">Due</h4>{dueDate}</td>
             <td className="item4 card-entry">
-                <JobDropdown initialValue={status} jobID={jobID} userName={user} />
+                <JobDropdown initialValue={status} jobID={jobID} userName={user} updateDB={true}/>
             </td>
             <td className="td-center item5 card-entry"><h4 className="mobile-header">Link</h4><a href={jobLink} target="_blank"><img src="./icons/link.svg" className="table-icon" alt="Link" /></a></td>
             <td className="td-center item6 card-entry"><h4 className="mobile-header">Contact</h4>

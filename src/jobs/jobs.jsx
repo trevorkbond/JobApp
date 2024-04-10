@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import { Popover } from 'bootstrap/dist/js/bootstrap.esm.min.js';
 import { JobRow } from './JobRow';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../app.css';
-import Dropdown from 'react-bootstrap/Dropdown';
 
 export function Jobs(props) {
     const [jobs, setJobs] = React.useState([]);
@@ -21,7 +19,6 @@ export function Jobs(props) {
                     setJobs(JSON.parse(jobsText));
                 }
             });
-        // loadJobs();
         // configureWebSocket();
         // loadSharedJobsFromDB();
     }, []);
@@ -42,45 +39,6 @@ export function Jobs(props) {
     //     buttonDiv.appendChild(userName);
     //     buttonDiv.appendChild(aWrapper);
     //     return buttonDiv;
-    // }
-
-    // function signOut() {
-    //     localStorage.removeItem('userName');
-    //     localStorage.removeItem('sharedJobList');
-    //     fetch(`/api/auth/logout`, {
-    //         method: 'delete',
-    //     }).then(() => (window.location.href = '/'));
-    // }
-
-    // function addJobButtons(jobID) {
-    //     const buttonsDiv = document.createElement('div');
-    //     buttonsDiv.classList.add('buttons-container');
-
-    //     const editButton = document.createElement('button');
-    //     editButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
-    //     editButton.setAttribute('id', 'edit' + jobID);
-    //     editButton.onclick = () => addEditJobToLocalStorage(this);
-    //     editButton.textContent = 'Edit';
-
-    //     const delButton = document.createElement('button');
-    //     delButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
-    //     delButton.setAttribute('id', 'del' + jobID);
-    //     delButton.onclick = () => addDelJobToLocalStorage(this);
-    //     delButton.textContent = 'Delete';
-
-    //     const shareButton = document.createElement('button');
-    //     shareButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
-    //     shareButton.textContent = 'Share';
-    //     shareButton.setAttribute('id', 'share' + jobID);
-    //     shareButton.setAttribute('data-bs-toggle', 'modal');
-    //     shareButton.setAttribute('data-bs-target', '#shareModal');
-    //     shareButton.onclick = () => addShareJobIDLocalStorage(this);
-
-    //     buttonsDiv.appendChild(editButton);
-    //     buttonsDiv.appendChild(shareButton);
-    //     buttonsDiv.appendChild(delButton);
-
-    //     return buttonsDiv;
     // }
 
     // function getNotificationEl(jobMessage, index) {
@@ -194,7 +152,7 @@ export function Jobs(props) {
     if (jobs.length) {
         for (const [i, job] of jobs.entries()) {
             jobRows.push(
-                <JobRow job={job} key={i}/>
+                <JobRow job={job} key={i} handleEdit={props.handleEdit}/>
             );
         }
 
@@ -205,80 +163,6 @@ export function Jobs(props) {
         //     const tableParent = document.getElementById('add-rows');
         //     tableParent.appendChild(finalRow);
     }
-
-    // function addOneJobToDOM(job, insertBeforeLast = false) {
-
-
-    //     const modalHTML = `
-    // <div className="modal fade" id="noteModal` + jobID + `" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    //     <div className="modal-dialog modal-dialog-scrollable">
-    //         <div className="modal-content">
-    //             <div className="modal-header">
-    //                 <h5 className="modal-title" id="exampleModalLabel">Notes</h5>
-    //                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    //             </div>
-    //             <div className="modal-body">
-    //             <textarea className="form-control" rows="20" id="editableTextField` + jobID + `">` + notes + `</textarea>
-    //             </div>
-    //             <div className="modal-footer">
-    //                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    //                 <button type="button" className="btn btn-dark" id="save` + jobID + `" onClick="saveNote(this);">Save Changes</button>
-    //             </div>
-    //         </div>
-    //     </div>
-    // </div>
-    // `;
-
-    //     const row = document.createElement('tr');
-    //     row.setAttribute('id', jobID);
-    //     row.innerHTML = rowHTML;
-
-    //     const tableParent = document.getElementById('add-rows');
-    //     if (!insertBeforeLast) {
-    //         tableParent.appendChild(row);
-    //     } else {
-    //         const lastRow = document.getElementById('lastRow');
-    //         if (lastRow !== null) {
-    //             lastRow.parentNode.insertBefore(row, lastRow);
-    //         }
-    //     }
-
-    //     const mainEl = document.querySelector('.job-main');
-    //     const modalEl = document.createElement('div');
-    //     modalEl.innerHTML = modalHTML;
-    //     mainEl.appendChild(modalEl);
-    // }
-
-
-    // async function saveNote(buttonEl) {
-    //     const jobID = getJobIDFromID(buttonEl.id);
-    //     const textFieldEl = document.getElementById('editableTextField' + jobID);
-    //     const noteToAdjust = textFieldEl.value;
-
-    //     const response = await fetch(`/api/jobs/single/${jobID}`);
-    //     let foundJob = await response.json();
-    //     foundJob.notes = noteToAdjust;
-
-    //     try {
-    //         const response = await fetch('/api/jobs', {
-    //             method: 'PUT',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(foundJob),
-    //         });
-    //         const jobs = await response.json();
-    //         localStorage.setItem('jobs', JSON.stringify(jobs));
-    //     } catch {
-    //         let jobs = [];
-    //         const jobsText = localStorage.getItem("jobs");
-    //         if (jobsText) {
-    //             jobs = JSON.parse(jobsText);
-    //         }
-    //         jobs[getIndexFromJobID(jobID)].notes = noteToAdjust;
-    //         localStorage.setItem("jobs", JSON.stringify(jobs));
-    //     }
-    // }
 
     // function cancelShareJob() {
     //     localStorage.removeItem('shareJob');

@@ -3,13 +3,17 @@ import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
 import { AuthState } from './login/authState';
 import { Jobs } from './jobs/jobs'
+import { Edit } from './edit/edit';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
+import { UserMenu } from './jobs/UserMenu';
 
 export default function App() {
     const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
     const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(currentAuthState);
+    const [sharedJobList, setSharedJobList] = React.useState([]);
+    const [editJob, setEditJob] = React.useState(null);
 
     return (
         <BrowserRouter>
@@ -21,9 +25,9 @@ export default function App() {
                         <button className="no-show-button" data-bs-toggle="modal" data-bs-target="#notificationModal">
                             <img id="notificationIcon" src="./icons/bell-slash.svg" style={{ filter: 'invert(100%)', width: '30px' }} />
                         </button>
-                        <a id="userPopover" className="header-icon" tabIndex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Not changed">
-                            <img src="./icons/person.svg" style={{ filter: 'invert(100%)', width: '30px' }} />
-                        </a>
+                        {authState === AuthState.Authenticated && (
+                            <UserMenu userName={userName} />
+                        )}
                     </div>
                 </header>
 
@@ -40,7 +44,8 @@ export default function App() {
                     }
                         exact
                     />
-                    <Route path='/jobs' element={<Jobs userName={userName} />}/>
+                    <Route path='/jobs' element={<Jobs userName={userName} handleEdit={setEditJob}/>}/>
+                    <Route path='/edit' element={<Edit editJob={editJob}/>}/>
                 </Routes>
 
                 <footer>
