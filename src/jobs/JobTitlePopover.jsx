@@ -11,9 +11,11 @@ export function JobTitlePopover({ jobID, title, handleEdit }) {
 
     const navigate = useNavigate();
 
-    function doEdit() {
-        handleEdit(jobID);
-        navigate('/edit', { editJob : jobID });
+    async function doEdit() {
+        const response = await fetch(`/api/jobs/single/${jobID}`);
+        const editJob = await response.json();
+        handleEdit(editJob);
+        navigate('/edit');
     }
 
     const popover = (

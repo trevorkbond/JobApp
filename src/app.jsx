@@ -12,7 +12,6 @@ export default function App() {
     const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
     const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(currentAuthState);
-    const [sharedJobList, setSharedJobList] = React.useState([]);
     const [editJob, setEditJob] = React.useState(null);
 
     return (
@@ -44,7 +43,7 @@ export default function App() {
                     }
                         exact
                     />
-                    <Route path='/jobs' element={<Jobs userName={userName} handleEdit={setEditJob}/>}/>
+                    <Route path='/jobs' element={<Jobs userName={userName} handleEdit={(editJob) => setEditJob(editJob)}/>}/>
                     <Route path='/edit' element={<Edit editJob={editJob}/>}/>
                 </Routes>
 

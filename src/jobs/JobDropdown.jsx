@@ -4,11 +4,10 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../app.css';
 
-export function JobDropdown({ initialValue, jobID, userName, updateDB }) {
-    const [value, setValue] = React.useState(initialValue);
+export function JobDropdown({ initialValue, jobID, userName, updateDB, onDropdownChange }) {
+    const [selectedValue, setSelectedValue] = useState(initialValue);
 
     async function updateStatusTable(status, jobID) {
-        setValue(status);
         const editJobObject = { jobID: jobID, user: userName };
         if (updateDB) {
             fetch(`/api/jobs/${status}`, {
@@ -18,16 +17,13 @@ export function JobDropdown({ initialValue, jobID, userName, updateDB }) {
                 },
                 body: JSON.stringify(editJobObject),
             })
-                .then(response => response.json())
-                .then(jobs => {
-                    setJobs(jobs);
-                    localStorage.setItem('jobs', JSON.stringify(jobs));
-                });
         }
+        setSelectedValue(status);
+        onDropdownChange(status);
     }
 
     return (
-        <DropdownButton id="dropdown-basic-button" variant='secondary' title={value}>
+        <DropdownButton id="dropdown-basic-button" variant='secondary' title={selectedValue}>
             <Dropdown.Item onClick={() => updateStatusTable('Not Applied', jobID)}>Not Applied</Dropdown.Item>
             <Dropdown.Item onClick={() => updateStatusTable('Applied', jobID)}>Applied</Dropdown.Item>
             <Dropdown.Item onClick={() => updateStatusTable('Invited for Interview', jobID)}>Invited for Interview</Dropdown.Item>
