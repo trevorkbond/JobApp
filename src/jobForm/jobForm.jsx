@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../app.css';
 
-export function Edit({ editJob }) {
+export function JobForm({ editJob }) {
     const navigate = useNavigate();
     const [title, setTitle] = React.useState(editJob.title);
     const [company, setCompany] = React.useState(editJob.company);
@@ -16,6 +16,9 @@ export function Edit({ editJob }) {
     const [notes, setNotes] = React.useState(editJob.notes);
     const editJobID = editJob.jobID;
     const user = editJob.user;
+    const isAddJob = editJob.title === '';
+    const header = isAddJob ? 'Add a job below' : 'Edit job below';
+    const submitButton = isAddJob ? 'Add job' : 'Edit job';
 
     function onTitleChange(e) { setTitle(e.target.value); }
     function onCompanyChange(e) { setCompany(e.target.value); }
@@ -48,8 +51,8 @@ export function Edit({ editJob }) {
         return formattedDate;
     }
 
-    async function saveEdits() {
-        const editJobObject = {
+    async function submitChanges() {
+        const jobObject = {
             title: title,
             company: company,
             date: toDisplayDate(date),
@@ -60,12 +63,13 @@ export function Edit({ editJob }) {
             jobID: editJobID,
             user: user
         }
+        const httpMethod = isAddJob ? 'POST' : 'PUT';
         const response = await fetch('/api/jobs', {
-            method: 'PUT',
+            method: httpMethod,
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(editJobObject),
+            body: JSON.stringify(jobObject),
         });
         const jobs = await response.json();
         localStorage.setItem('jobs', JSON.stringify(jobs));
@@ -80,7 +84,7 @@ export function Edit({ editJob }) {
         <div className='app'>
             <div className="form-div form-group-margin-less">
                 <div className="form-content-container">
-                    <h3 id="editHeader" className="form-group-margin-less form-header" style={{ alignSelf: 'flex-start', paddingTop: '1em' }}>Edit job below</h3>
+                    <h3 id="editHeader" className="form-group-margin-less form-header" style={{ alignSelf: 'flex-start', paddingTop: '1em' }}>{header}</h3>
                     <form className="add-delete-share-form" action="./jobs.html">
                         <div className="form-group form-group-margin-less">
                             <input type="text" className="form-control" id="jobTitle"
@@ -121,7 +125,7 @@ export function Edit({ editJob }) {
                         </div>
                         <div className="buttons-container">
                             <button id="editJobButton" type="button" className="btn btn-dark padding-button-override"
-                                onClick={saveEdits}>Edit job</button>
+                                onClick={submitChanges}>{submitButton}</button>
                             <button type="button" className="btn btn-dark padding-button-override" onClick={cancelEdits}>Cancel</button>
                         </div>
                     </form>

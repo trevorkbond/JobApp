@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { JobRow } from './JobRow';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import '../app.css';
 
 export function Jobs(props) {
     const [jobs, setJobs] = React.useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`/api/jobs/${props.userName}`)
@@ -150,10 +152,20 @@ export function Jobs(props) {
 
     const jobRows = [];
     if (jobs.length) {
+        let isLastRow;
         for (const [i, job] of jobs.entries()) {
             jobRows.push(
-                <JobRow job={job} key={i} handleEdit={props.handleEdit}/>
+                <JobRow job={job} key={i} handleEdit={props.handleEdit} />
             );
+            if (i === jobs.length - 1) {
+                jobRows.push(<tr key={i + 1} className='fill-row-mobile' id='finalRow'>
+                    <td colSpan={7}>
+                        <div className='padding-button'>
+                            <Button className='btn btn-lg btn-dark' onClick={addJob}>Add New Job</Button>
+                        </div>
+                    </td>
+                </tr>)
+            }
         }
 
         //     const finalRow = document.createElement('tr');
@@ -162,6 +174,10 @@ export function Jobs(props) {
         // `);
         //     const tableParent = document.getElementById('add-rows');
         //     tableParent.appendChild(finalRow);
+    }
+
+    function addJob() {
+        navigate('/add');
     }
 
     // function cancelShareJob() {

@@ -32,7 +32,7 @@ export function JobTitlePopover({ jobID, title, handleEdit }) {
 
     return (
         <OverlayTrigger trigger="click" placement="right" className='job-button' overlay={popover} rootClose>
-            <Button className='job-button'>{title}</Button>
+            <a className='job-title-popover' role='button'>{title}</a>
         </OverlayTrigger>
     );
 
