@@ -4,6 +4,7 @@ import { Login } from './login/login';
 import { AuthState } from './login/authState';
 import { Jobs } from './jobs/jobs'
 import { JobForm } from './jobForm/jobForm';
+import { Delete } from './delete/delete';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 import { UserMenu } from './jobs/UserMenu';
@@ -13,6 +14,7 @@ export default function App() {
     const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(currentAuthState);
     const [editJob, setEditJob] = React.useState(null);
+    const [delJob, setDelJob] = React.useState(null);
     const addJob = {
         title: '',
         company: '',
@@ -53,10 +55,13 @@ export default function App() {
                     }
                         exact
                     />
-                    <Route path='/jobs' element={<Jobs userName={userName} handleEdit={(editJob) => setEditJob(editJob)}/>}/>
+                    <Route path='/jobs' element={<Jobs userName={userName} 
+                        handleEdit={(editJob) => setEditJob(editJob)}
+                        handleDelete={(delJob) => setDelJob(delJob)}/>}/>
                     <Route path='/edit' element={<JobForm editJob={editJob}/>}/>
                     <Route path='/add' element={<JobForm 
                         editJob={addJob}/>}/>
+                    <Route path='/delete' element={<Delete delJob={delJob}/>}/>
                 </Routes>
 
                 <footer>

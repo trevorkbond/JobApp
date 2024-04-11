@@ -7,7 +7,7 @@ import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../app.css';
 
-export function JobTitlePopover({ jobID, title, handleEdit }) {
+export function JobTitlePopover({ jobID, title, handleEdit, handleDelete }) {
 
     const navigate = useNavigate();
 
@@ -18,13 +18,20 @@ export function JobTitlePopover({ jobID, title, handleEdit }) {
         navigate('/edit');
     }
 
+    async function doDelete() {
+        const response = await fetch(`/api/jobs/single/${jobID}`);
+        const delJob = await response.json();
+        handleDelete(delJob);
+        navigate('/delete');
+    }
+
     const popover = (
         <Popover>
             <Popover.Body>
                 <div className='buttons-container'>
                     <Button className='btn btn-dark padding-button-override-small' onClick={() => doEdit()}>Edit</Button>
                     <Button className='btn btn-dark padding-button-override-small'>Share</Button>
-                    <Button  className='btn btn-dark padding-button-override-small'>Delete</Button>
+                    <Button  className='btn btn-dark padding-button-override-small' onClick={doDelete}>Delete</Button>
                 </div>
             </Popover.Body>
         </Popover>

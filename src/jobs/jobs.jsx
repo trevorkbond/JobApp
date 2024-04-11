@@ -155,7 +155,8 @@ export function Jobs(props) {
         let isLastRow;
         for (const [i, job] of jobs.entries()) {
             jobRows.push(
-                <JobRow job={job} key={i} handleEdit={props.handleEdit} />
+                <JobRow job={job} key={i} handleEdit={props.handleEdit} 
+                    handleDelete={props.handleDelete}/>
             );
             if (i === jobs.length - 1) {
                 jobRows.push(<tr key={i + 1} className='fill-row-mobile' id='finalRow'>

@@ -72,7 +72,6 @@ export function JobForm({ editJob }) {
             body: JSON.stringify(jobObject),
         });
         const jobs = await response.json();
-        localStorage.setItem('jobs', JSON.stringify(jobs));
         navigate('/jobs');
     }
 
