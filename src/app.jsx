@@ -5,6 +5,7 @@ import { AuthState } from './login/authState';
 import { Jobs } from './jobs/jobs'
 import { JobForm } from './jobForm/jobForm';
 import { Delete } from './delete/delete';
+import { Search } from './search/search';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 import { UserMenu } from './jobs/UserMenu';
@@ -32,7 +33,9 @@ export default function App() {
                 <header>
                     <h1 className="header-padding header-override">JobApp</h1>
                     <div className="header-icons-padding">
-                        <a href="./search.html" className="header-icon"><img src="./icons/search.svg" style={{ filter: 'invert(100%)', width: '30px' }} /></a>
+                        <NavLink className="header-icon" to='/search'>
+                            <img src="./icons/search.svg" style={{ filter: 'invert(100%)', width: '30px' }} />
+                        </NavLink>
                         <button className="no-show-button" data-bs-toggle="modal" data-bs-target="#notificationModal">
                             <img id="notificationIcon" src="./icons/bell-slash.svg" style={{ filter: 'invert(100%)', width: '30px' }} />
                         </button>
@@ -55,13 +58,14 @@ export default function App() {
                     }
                         exact
                     />
-                    <Route path='/jobs' element={<Jobs userName={userName} 
+                    <Route path='/jobs' element={<Jobs userName={userName}
                         handleEdit={(editJob) => setEditJob(editJob)}
-                        handleDelete={(delJob) => setDelJob(delJob)}/>}/>
-                    <Route path='/edit' element={<JobForm editJob={editJob}/>}/>
-                    <Route path='/add' element={<JobForm 
-                        editJob={addJob}/>}/>
-                    <Route path='/delete' element={<Delete delJob={delJob}/>}/>
+                        handleDelete={(delJob) => setDelJob(delJob)} />} />
+                    <Route path='/edit' element={<JobForm editJob={editJob} />} />
+                    <Route path='/add' element={<JobForm
+                        editJob={addJob} />} />
+                    <Route path='/delete' element={<Delete delJob={delJob} />} />
+                    <Route path='/search' element={<Search />}/>
                 </Routes>
 
                 <footer>
