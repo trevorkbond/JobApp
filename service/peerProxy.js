@@ -26,16 +26,11 @@ function peerProxy(httpServer) {
         ws.on('message', async function message(data) {
             const jsonData = JSON.parse(data);
             const username = jsonData.shareToUser;
-            let shared = false;
             connections.forEach((c) => {
                 if (c.username === username) {
                     c.ws.send(data);
-                    shared = true;
                 }
             });
-            if (!shared) {
-                DB.addSharedJob(jsonData);
-            }
         });
 
         // Remove the closed connection so we don't try to forward anymore

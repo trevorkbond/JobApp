@@ -31,7 +31,7 @@ export function JobRow(props) {
         <tr id={props.job.jobID}>
             <td className="item1 card-entry"><h4 className="mobile-header">Position</h4>
                 <JobTitlePopover jobID={jobID} title={jobTitle} handleEdit={props.handleEdit}
-                    handleDelete={props.handleDelete}></JobTitlePopover>
+                    handleDelete={props.handleDelete} job={props.job} ></JobTitlePopover>
             </td>
             <td className="item2 card-entry"><h4 className="mobile-header">Company</h4>{companyName}</td>
             <td className="item3 card-entry"><h4 className="mobile-header">Due</h4>{dueDate}</td>

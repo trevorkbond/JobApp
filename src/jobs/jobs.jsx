@@ -2,13 +2,17 @@ import React, { useEffect } from 'react';
 import { JobRow } from './JobRow';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { JobNotifier } from './jobNotifier';
 import '../app.css';
 
 export function Jobs(props) {
     const [jobs, setJobs] = React.useState([]);
+    const [events, setEvent] = React.useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
+        
+        JobNotifier.addHandler(handleJobEvent);
         fetch(`/api/jobs/${props.userName}`)
             .then(response => response.json())
             .then(jobs => {
@@ -21,27 +25,28 @@ export function Jobs(props) {
                     setJobs(JSON.parse(jobsText));
                 }
             });
-        // configureWebSocket();
-        // loadSharedJobsFromDB();
+            console.log(events);
+        return () => {
+            JobNotifier.removeHandler(handleJobEvent);
+        };
     }, []);
 
-    // function addUserMenu() {
-    //     const userName = document.createElement('p');
-    //     userName.textContent = getUsername();
-    //     const buttonDiv = document.createElement('div');
-    //     buttonDiv.setAttribute('style', 'display: flex; flex-direction: column; justify-content: center; align-items: center;')
-    //     const aWrapper = document.createElement('a');
-    //     aWrapper.setAttribute('href', 'index.html');
-    //     const soButton = document.createElement('button');
-    //     soButton.classList.add('btn', 'btn-dark', 'btn-sm', 'padding-button-override');
-    //     soButton.classList.add('btn', 'btn-primary');
-    //     soButton.textContent = 'Sign Out';
-    //     soButton.onclick = signOut;
-    //     aWrapper.appendChild(soButton);
-    //     buttonDiv.appendChild(userName);
-    //     buttonDiv.appendChild(aWrapper);
-    //     return buttonDiv;
-    // }
+    function handleJobEvent(event) {
+        setEvent(event);
+        props.handleSharedJobs(events);
+    }
+
+    function createMessageArray() {
+        const messageArray = [];
+        for (const [i, event] of events.entries()) {
+          messageArray.push(
+            <div key={i} style={{borderBottom: '1px solid black', marginTop: '.5em'}}>
+              <p>Idk just put something in here </p>
+            </div>
+          );
+        }
+        return messageArray;
+      }
 
     // function getNotificationEl(jobMessage, index) {
     //     const popoverDiv = document.createElement('div');
@@ -152,11 +157,10 @@ export function Jobs(props) {
 
     const jobRows = [];
     if (jobs.length) {
-        let isLastRow;
         for (const [i, job] of jobs.entries()) {
             jobRows.push(
-                <JobRow job={job} key={i} handleEdit={props.handleEdit} 
-                    handleDelete={props.handleDelete}/>
+                <JobRow job={job} key={i} handleEdit={props.handleEdit}
+                    handleDelete={props.handleDelete} />
             );
             if (i === jobs.length - 1) {
                 jobRows.push(<tr key={i + 1} className='fill-row-mobile' id='finalRow'>
@@ -251,11 +255,10 @@ export function Jobs(props) {
     // }
 
     // function configureWebSocket() {
-    //     const username = localStorage.getItem('userName');
     //     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
-    //     socket = new WebSocket(`${protocol}://${window.location.host}/ws?username=${username}`);
+    //     setSocket(new WebSocket(`${protocol}://${window.location.host}/ws?username=${props.userName}`));
 
-    //     socket.onopen = (event) => {
+    //     this.socket.onopen = (event) => {
     //         console.log("ws connection opened");
     //     };
     //     socket.onmessage = async (event) => {
@@ -267,10 +270,6 @@ export function Jobs(props) {
     //         msgModal.show();
     //     };
     // }
-
-
-    // let socket;
-    // let sharedJobList = [];
 
     return (
         <div className='app inner-component-padding job-main'>

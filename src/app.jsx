@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 import { UserMenu } from './jobs/UserMenu';
+import { SharedJobModal } from './jobs/sharedJobModal';
 
 export default function App() {
     const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
@@ -18,6 +19,8 @@ export default function App() {
     const [editJob, setEditJob] = React.useState(null);
     const [delJob, setDelJob] = React.useState(null);
     const [searchJob, setSearchJob] = React.useState(null);
+    const [sharedJobs, setSharedJobs] = React.useState([]);
+
     const addJob = {
         title: '',
         company: '',
@@ -39,12 +42,10 @@ export default function App() {
                 <header>
                     <h1 className="header-padding header-override">JobApp</h1>
                     <div className="header-icons-padding">
-                        <NavLink className="header-icon" to='/search'>
+                        {authState === AuthState.Authenticated && (<NavLink className="header-icon" to='/search'>
                             <img src="./icons/search.svg" style={{ filter: 'invert(100%)', width: '30px' }} />
-                        </NavLink>
-                        <button className="no-show-button" data-bs-toggle="modal" data-bs-target="#notificationModal">
-                            <img id="notificationIcon" src="./icons/bell-slash.svg" style={{ filter: 'invert(100%)', width: '30px' }} />
-                        </button>
+                        </NavLink>)}
+                        {authState === AuthState.Authenticated && (<SharedJobModal sharedJobs={sharedJobs}/>)}
                         {authState === AuthState.Authenticated && (
                             <UserMenu userName={userName} />
                         )}
@@ -66,15 +67,16 @@ export default function App() {
                     />
                     <Route path='/jobs' element={<Jobs userName={userName}
                         handleEdit={(editJob) => setEditJob(editJob)}
-                        handleDelete={(delJob) => setDelJob(delJob)} />} />
-                    <Route path='/edit' element={<JobForm editJob={editJob} userName={userName}/>} />
+                        handleDelete={(delJob) => setDelJob(delJob)} 
+                        handleSharedJobs={(sharedJobs) => setSharedJobs(sharedJobs)}/>} />
+                    <Route path='/edit' element={<JobForm editJob={editJob} userName={userName} />} />
                     <Route path='/add' element={<JobForm
-                        editJob={addJob} userName={userName}/>} />
+                        editJob={addJob} userName={userName} />} />
                     <Route path='/add-searched' element={<JobForm
-                        editJob={editJob} searchJob={searchJob} userName={userName}/>} />
+                        editJob={editJob} searchJob={searchJob} userName={userName} />} />
                     <Route path='/delete' element={<Delete delJob={delJob} />} />
                     <Route path='/search' element={<Search handleSearch={(searchJob) => setSearchJob(searchJob)}
-                        handleEdit={(editJob) => setEditJob(editJob)}/>}/>
+                        handleEdit={(editJob) => setEditJob(editJob)} />} />
                 </Routes>
 
                 <footer>
