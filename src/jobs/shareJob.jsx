@@ -15,6 +15,7 @@ export function ShareJobModal(props) {
     async function shareJob() {
         const shareJob = JSON.parse(JSON.stringify(props.job));
         shareJob.shareToUser = friend;
+        shareJob.status = 'Select Status';
         JobNotifier.broadcastEvent(shareJob);
     }
 

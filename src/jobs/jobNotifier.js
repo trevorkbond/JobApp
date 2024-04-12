@@ -30,10 +30,6 @@ class JobEventNotifier {
     receiveEvent(event) {
         this.events.push(event);
 
-        console.log('events');
-        console.log(this.events);
-        console.log(this.handlers);
-
         this.events.forEach((e) => {
             this.handlers.forEach((handler) => {
                 handler(e);

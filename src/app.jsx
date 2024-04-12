@@ -7,10 +7,12 @@ import { JobForm } from './jobForm/jobForm';
 import { Delete } from './delete/delete';
 import { Search } from './search/search';
 import { useEffect } from 'react';
+import { JobNotifier } from './jobs/jobNotifier';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 import { UserMenu } from './jobs/UserMenu';
 import { SharedJobModal } from './jobs/sharedJobModal';
+import { Button } from 'react-bootstrap';
 
 export default function App() {
     const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
@@ -19,7 +21,9 @@ export default function App() {
     const [editJob, setEditJob] = React.useState(null);
     const [delJob, setDelJob] = React.useState(null);
     const [searchJob, setSearchJob] = React.useState(null);
-    const [sharedJobs, setSharedJobs] = React.useState([]);
+    const [events, setEvents] = React.useState([]);
+    const [sharedJob, setSharedJob] = React.useState(null);
+    const [showModal, setShowModal] = React.useState(false);
 
     const addJob = {
         title: '',
@@ -32,9 +36,52 @@ export default function App() {
         user: userName
     }
 
+    function ignoreSharedJob() {
+
+    }
+
+    function toggleModal() {
+        setShowModal(!showModal);
+    }
+
     useEffect(() => {
+        JobNotifier.addHandler(handleJobEvent);
         setSearchJob(null);
-    });
+        return () => {
+            JobNotifier.removeHandler(handleJobEvent);
+        };
+    }, []);
+
+    function handleJobEvent(event) {
+        setEvents([...events, event]);
+    }
+
+    function doSearch(job) {
+        setEditJob(job);
+        setSearchJob(job);
+    }
+
+    function ignoreSharedJob() {
+        setEvents([]);
+    }
+
+    function createMessageArray() {
+        const messageArray = [];
+        for (const [i, event] of events.entries()) {
+            messageArray.push(
+                <div key={i} style={{ borderBottom: '1px solid black', marginTop: '.5em' }}>
+                    <p>{event.user} shared a {event.title} position at {event.company} with you. Would you like to add or ignore the job?</p>
+                    <div className='buttons-container'>
+                        <NavLink to='add-searched'>
+                            <Button className='btn btn-dark padding-button-override-small' onClick={() => { doSearch(event); closeModal(); }}>Add</Button>
+                        </NavLink>
+                        <Button className='btn btn-dark padding-button-override-small' onClick={ignoreSharedJob} >Ignore</Button>
+                    </div>
+                </div>
+            );
+        }
+        return messageArray;
+    }
 
     return (
         <BrowserRouter>
@@ -45,7 +92,8 @@ export default function App() {
                         {authState === AuthState.Authenticated && (<NavLink className="header-icon" to='/search'>
                             <img src="./icons/search.svg" style={{ filter: 'invert(100%)', width: '30px' }} />
                         </NavLink>)}
-                        {authState === AuthState.Authenticated && (<SharedJobModal sharedJobs={sharedJobs}/>)}
+                        {authState === AuthState.Authenticated && (<SharedJobModal sharedJobs={createMessageArray(toggleModal)} isShow={showModal} closeModal={toggleModal} />
+                        )}
                         {authState === AuthState.Authenticated && (
                             <UserMenu userName={userName} />
                         )}
@@ -67,8 +115,7 @@ export default function App() {
                     />
                     <Route path='/jobs' element={<Jobs userName={userName}
                         handleEdit={(editJob) => setEditJob(editJob)}
-                        handleDelete={(delJob) => setDelJob(delJob)} 
-                        handleSharedJobs={(sharedJobs) => setSharedJobs(sharedJobs)}/>} />
+                        handleDelete={(delJob) => setDelJob(delJob)} />} />
                     <Route path='/edit' element={<JobForm editJob={editJob} userName={userName} />} />
                     <Route path='/add' element={<JobForm
                         editJob={addJob} userName={userName} />} />

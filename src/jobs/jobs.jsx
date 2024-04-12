@@ -2,17 +2,13 @@ import React, { useEffect } from 'react';
 import { JobRow } from './JobRow';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { JobNotifier } from './jobNotifier';
 import '../app.css';
 
 export function Jobs(props) {
     const [jobs, setJobs] = React.useState([]);
-    const [events, setEvent] = React.useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        
-        JobNotifier.addHandler(handleJobEvent);
         fetch(`/api/jobs/${props.userName}`)
             .then(response => response.json())
             .then(jobs => {
@@ -25,28 +21,8 @@ export function Jobs(props) {
                     setJobs(JSON.parse(jobsText));
                 }
             });
-            console.log(events);
-        return () => {
-            JobNotifier.removeHandler(handleJobEvent);
-        };
+       
     }, []);
-
-    function handleJobEvent(event) {
-        setEvent(event);
-        props.handleSharedJobs(events);
-    }
-
-    function createMessageArray() {
-        const messageArray = [];
-        for (const [i, event] of events.entries()) {
-          messageArray.push(
-            <div key={i} style={{borderBottom: '1px solid black', marginTop: '.5em'}}>
-              <p>Idk just put something in here </p>
-            </div>
-          );
-        }
-        return messageArray;
-      }
 
     // function getNotificationEl(jobMessage, index) {
     //     const popoverDiv = document.createElement('div');

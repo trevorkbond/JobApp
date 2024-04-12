@@ -1,16 +1,23 @@
 import React from 'react';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../app.css';
 
-export function SharedJobModal({ sharedJobs }) {
-    const [show, setShow] = React.useState(false);
+export function SharedJobModal({ sharedJobs, isShow, closeModal }) {
+    const [show, setShow] = React.useState(isShow);
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        closeModal(); // Call the callback function to update the modal state in the parent component
+    };
     const handleShow = () => setShow(true);
+
+    useEffect(() => {
+        handleClose();
+    }, []);
 
     return (
         <>
