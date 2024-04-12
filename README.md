@@ -103,3 +103,10 @@ Did the following to implement Websockets:
 - Frontend makes WebSocket connection - done, frontent makes ws connection in `jobs.js`.
 - Data sent over WebSocket connection - done, when jobs are shared with another existing user, if that user is online and they are on the `jobs.html` page, they will get that shared job added to their notifications list and have the option to add it to their tracked jobs. If the user is not online or is not on `jobs.html`, the server will instead add that job to a shared collection in the database, and the user the job was shared with will have all shared jobs since they were gone loaded upon logging in. The key to know if you have shared jobs to either add or ignore is the notification icon will either have a slash through it or not.
 - WebSocket data displayed in the application interface - done, shared jobs are populated into the notification list.
+
+## React Deliverable
+Did the following:
+- Bundled using Vite - done
+- Multiple functional react components - done
+- React router - done
+- React hooks - done
