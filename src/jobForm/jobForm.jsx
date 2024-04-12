@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../app.css';
 
-export function JobForm({ editJob }) {
+export function JobForm({ editJob, searchJob, userName }) {
     const navigate = useNavigate();
     const [title, setTitle] = React.useState(editJob.title);
     const [company, setCompany] = React.useState(editJob.company);
@@ -15,10 +15,11 @@ export function JobForm({ editJob }) {
     const [contact, setContact] = React.useState(editJob.contact);
     const [notes, setNotes] = React.useState(editJob.notes);
     const editJobID = editJob.jobID;
-    const user = editJob.user;
+    const user = userName;
     const isAddJob = editJob.title === '';
-    const header = isAddJob ? 'Add a job below' : 'Edit job below';
-    const submitButton = isAddJob ? 'Add job' : 'Edit job';
+    const isSearchJob = searchJob !== undefined;
+    const header = isAddJob ? 'Add a job below' : isSearchJob ? 'Add additional fields as needed' : 'Edit job below';
+    const submitButton = (isAddJob || isSearchJob) ? 'Add job' : 'Edit job';
 
     function onTitleChange(e) { setTitle(e.target.value); }
     function onCompanyChange(e) { setCompany(e.target.value); }
@@ -41,14 +42,17 @@ export function JobForm({ editJob }) {
     }
 
     function convertDateFormat(inputDate) {
-        let parts = inputDate.split('/');
-        let formattedDate;
-        try {
-            formattedDate = parts[2] + '-' + parts[0].padStart(2, '0') + '-' + parts[1].padStart(2, '0');
-        } catch {
-            formattedDate = "";
+        if (inputDate) {
+            let parts = inputDate.split('/');
+            let formattedDate;
+            try {
+                formattedDate = parts[2] + '-' + parts[0].padStart(2, '0') + '-' + parts[1].padStart(2, '0');
+            } catch {
+                formattedDate = "";
+            }
+            return formattedDate;
         }
-        return formattedDate;
+        return '';
     }
 
     async function submitChanges() {
@@ -63,7 +67,7 @@ export function JobForm({ editJob }) {
             jobID: editJobID,
             user: user
         }
-        const httpMethod = isAddJob ? 'POST' : 'PUT';
+        const httpMethod = (isAddJob || isSearchJob) ? 'POST' : 'PUT';
         const response = await fetch('/api/jobs', {
             method: httpMethod,
             headers: {
@@ -76,7 +80,7 @@ export function JobForm({ editJob }) {
     }
 
     function cancelEdits() {
-        navigate ('/jobs');
+        navigate('/jobs');
     }
 
     return (

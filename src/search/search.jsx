@@ -1,13 +1,15 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { JobSearchRow } from './jobSearchRow';
+import { MessageDialog } from '../login/messageDialog';
 
 
-export function Search() {
+export function Search({ handleSearch, handleEdit }) {
 
     const [search, setSearch] = React.useState(localStorage.getItem('lastSearch') || '');
     const [searchJobs, setSearchJobs] = React.useState(JSON.parse(localStorage.getItem('searchJobs')) || null);
     const [showResults, setShowResults] = React.useState(false);
+    const [displayError, setDisplayError] = React.useState(null);
 
     useEffect(() => {
         if (searchJobs !== null) {
@@ -31,20 +33,17 @@ export function Search() {
             setSearchJobs(jobList);
             setShowResults(!showResults);
             localStorage.setItem('searchJobs', JSON.stringify(jobList));
-        } // else if (jobList.statusCode === 404) {
-        //     document.querySelector("#add-rows").innerHTML = "";
-        //     const modalEl = document.querySelector('#msgModal');
-        //     modalEl.querySelector('.modal-body').textContent = `⚠ Error: Your search returned no results. Please try again.`;
-        //     const msgModal = new bootstrap.Modal(modalEl, {});
-        //     msgModal.show();
-        // }
+        } else if (jobList.statusCode === 404) {
+            setDisplayError("⚠ Error: Search didn't return results. Please try again.");
+        }
     }
 
     const jobRows = [];
     if (searchJobs) {
         for (const [i, job] of searchJobs.entries()) {
+            job.status = 'Select Status';
             jobRows.push(
-                <JobSearchRow job={job} key={i} />
+                <JobSearchRow job={job} key={i} handleSearch={handleSearch} handleEdit={handleEdit}/>
             );
         }
     }
@@ -89,6 +88,7 @@ export function Search() {
                 </thead>
                 <tbody className="table-group-divider" id="add-rows">{jobRows}</tbody>
             </table>)}
+            <MessageDialog message={displayError} onHide={() => setDisplayError(null)} />
         </div>
     )
 }
