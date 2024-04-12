@@ -24,10 +24,13 @@ function peerProxy(httpServer) {
 
         // Forward messages to user specified in sent message
         ws.on('message', async function message(data) {
+            console.log('received message');
             const jsonData = JSON.parse(data);
             const username = jsonData.shareToUser;
             connections.forEach((c) => {
+                console.log('trying username ' + c.username);
                 if (c.username === username) {
+                    console.log('sending to ' + username);
                     c.ws.send(data);
                 }
             });

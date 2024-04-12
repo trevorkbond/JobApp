@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../app.css';
 import { ShareJobModal } from './shareJob';
 
-export function JobTitlePopover({ jobID, title, handleEdit, handleDelete, job}) {
+export function JobTitlePopover({ jobID, title, handleEdit, handleDelete, job }) {
     const [displayShare, setDisplayShare] = React.useState(null);
 
     const navigate = useNavigate();

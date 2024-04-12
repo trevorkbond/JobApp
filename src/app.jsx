@@ -7,7 +7,7 @@ import { JobForm } from './jobForm/jobForm';
 import { Delete } from './delete/delete';
 import { Search } from './search/search';
 import { useEffect } from 'react';
-import { JobNotifier } from './jobs/jobNotifier';
+import { JobEventNotifier, initializeJobNotifier } from './jobs/jobNotifier';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 import { UserMenu } from './jobs/UserMenu';
@@ -24,6 +24,12 @@ export default function App() {
     const [events, setEvents] = React.useState([]);
     const [sharedJob, setSharedJob] = React.useState(null);
     const [showModal, setShowModal] = React.useState(false);
+    const [jobNotifier, setJobNotifier] = React.useState(null);
+
+    async function getNotifier() {
+        await initializeJobNotifier();
+        return JobEventNotifier.getInstance();
+    }
 
     const addJob = {
         title: '',
@@ -36,21 +42,32 @@ export default function App() {
         user: userName
     }
 
-    function ignoreSharedJob() {
-
-    }
-
     function toggleModal() {
         setShowModal(!showModal);
     }
 
     useEffect(() => {
-        JobNotifier.addHandler(handleJobEvent);
-        setSearchJob(null);
-        return () => {
-            JobNotifier.removeHandler(handleJobEvent);
+        const initialize = async () => {
+            try {
+                const notifier = await initializeJobNotifier();
+                setJobNotifier(notifier);
+            } catch (error) {
+                console.error('Error initializing JobNotifier:', error);
+            }
         };
+
+        initialize();
     }, []);
+
+    useEffect(() => {
+        if (jobNotifier) {
+            // Ensure jobNotifier is initialized before accessing its methods
+            jobNotifier.addHandler(handleJobEvent);
+            setSearchJob(null);
+        }
+    }, [jobNotifier]);
+    
+    
 
     function handleJobEvent(event) {
         setEvents([...events, event]);

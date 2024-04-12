@@ -1,14 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
-import { JobNotifier } from './jobNotifier';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { JobEventNotifier } from './jobNotifier';
 import '../app.css';
 
 export function ShareJobModal(props) {
     const [friend, setFriend] = useState('');
+    const jobNotifier = JobEventNotifier.getInstance();
 
     const onFriendChange = (e) => setFriend(e.target.value);
 
@@ -16,7 +17,7 @@ export function ShareJobModal(props) {
         const shareJob = JSON.parse(JSON.stringify(props.job));
         shareJob.shareToUser = friend;
         shareJob.status = 'Select Status';
-        JobNotifier.broadcastEvent(shareJob);
+        jobNotifier.broadcastEvent(shareJob);
     }
 
     return (
