@@ -9,9 +9,12 @@
     height: 100%;
 }
 
-html, .app, body {
+html,
+.app,
+body,
+#root {
     height: 100%;
-} 
+}
 
 .header-override {
     display: block !important;
@@ -69,7 +72,8 @@ img {
     width: 25px;
 }
 
-.app {
+.app,
+#root {
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -188,13 +192,18 @@ main {
 }
 
 footer {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    height: 30px;
+    width: 100%;
     flex: 0 50px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     margin-top: 1em;
-    
+
     background-color: black;
     color: white;
 }
@@ -228,7 +237,7 @@ footer div {
     .table-group-divider {
         border-top: 0px transparent;
     }
-  
+
     tr {
         display: grid;
         align-items: start;
@@ -253,35 +262,41 @@ footer div {
     .item1 {
         grid-column-start: 1;
         grid-column-end: 4;
-        
+
     }
+
     .item2 {
         grid-column-start: 1;
-        grid-column-end: 4;        
+        grid-column-end: 4;
     }
+
     .item3 {
         grid-column-start: 1;
-        grid-column-end: 2;   
-        
+        grid-column-end: 2;
+
     }
+
     .item4 {
         grid-column-start: 2;
         grid-column-end: 4;
-        
+
     }
+
     .item5 {
         grid-column-start: 1;
-        grid-column-end: 2;   
-        
+        grid-column-end: 2;
+
     }
+
     .item6 {
         grid-column-start: 2;
-        grid-column-end: 3;   
-        
+        grid-column-end: 3;
+
     }
+
     .item7 {
         grid-column-start: 3;
-        grid-column-end: 4;  
+        grid-column-end: 4;
     }
 
     .fill-row-mobile {
@@ -292,15 +307,15 @@ footer div {
     .mobile-header {
         display: block;
     }
-  
+
     td {
-      display: block;
-      text-align: center;
+        display: block;
+        text-align: center;
     }
 
     .mobile-table-card {
         display: none;
-        
+
     }
 
     .form-content-container {
@@ -310,4 +325,4 @@ footer div {
     .dropdown-mobile {
         white-space: normal !important;
     }
-  }
+}

@@ -105,6 +105,12 @@ secureApiRouter.put('/jobs', (req, res) => {
   res.send(job);
 });
 
+secureApiRouter.get('/jobs', async (req, res) => {
+  const username = 'user';
+  const filteredJobs = await DB.getJobsForUser(username);
+  res.send(filteredJobs);
+});
+
 secureApiRouter.put('/jobs/:status', (req, res) => {
   const jobID = DB.editJobStatus(req.params.status, req.body.jobID);
   res.send(JSON.stringify(jobID));
@@ -118,6 +124,10 @@ secureApiRouter.delete('/jobs', async (req, res) => {
 secureApiRouter.delete('/jobs/shared', async (req, res) => {
   const deleted = await DB.deleteSharedJob(req.body);
   res.send(deleted);
+});
+
+app.use((_req, res) => {
+  res.sendFile('index.html', { root: 'public' });
 });
 
 const port = 4000;
