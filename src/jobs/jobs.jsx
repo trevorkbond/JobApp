@@ -32,8 +32,8 @@ export function Jobs(props) {
                     handleDelete={props.handleDelete} />
             );
             if (i === jobs.length - 1) {
-                jobRows.push(<tr key={i + 1} className='fill-row-mobile' id='finalRow'>
-                    <td colSpan={7}>
+                jobRows.push(<tr key={i + 1} id='finalRow'>
+                    <td colSpan={7} className='fill-row-mobile'>
                         <div className='padding-button'>
                             <Button className='btn btn-lg btn-dark' onClick={addJob}>Add New Job</Button>
                         </div>
