@@ -134,6 +134,7 @@ export function JobForm({ editJob, searchJob, userName }) {
                     </form>
                 </div>
             </div>
+            <div style={{paddingBottom: '2em'}}></div>
         </div>
     );
 }

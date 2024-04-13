@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { JobSearchRow } from './jobSearchRow';
 import { MessageDialog } from '../login/messageDialog';
+import { useNavigate } from 'react-router-dom';
 
 
 export function Search({ handleSearch, handleEdit }) {
@@ -10,6 +11,7 @@ export function Search({ handleSearch, handleEdit }) {
     const [searchJobs, setSearchJobs] = React.useState(JSON.parse(localStorage.getItem('searchJobs')) || null);
     const [showResults, setShowResults] = React.useState(false);
     const [displayError, setDisplayError] = React.useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (searchJobs !== null) {
@@ -38,22 +40,19 @@ export function Search({ handleSearch, handleEdit }) {
         }
     }
 
+    function goHome() {
+        navigate('/jobs');
+    }
+
     const jobRows = [];
     if (searchJobs) {
         for (const [i, job] of searchJobs.entries()) {
             job.status = 'Select Status';
             jobRows.push(
-                <JobSearchRow job={job} key={i} handleSearch={handleSearch} handleEdit={handleEdit}/>
+                <JobSearchRow job={job} key={i} handleSearch={handleSearch} handleEdit={handleEdit} />
             );
         }
     }
-
-    //     const finalRow = document.createElement('tr');
-    //     finalRow.innerHTML = (`
-    //     <td colspan="7" id="finalRow" className="fill-row-mobile"><div className="padding-button"><a href="./add.html"><button className="btn btn-primary btn-lg btn-dark">Add New Job</button></a></div></td>
-    // `);
-    //     const tableParent = document.getElementById('add-rows');
-    //     tableParent.appendChild(finalRow);
 
     return (
         <div className='app inner-component-padding'>
@@ -71,6 +70,8 @@ export function Search({ handleSearch, handleEdit }) {
                             <div className="buttons-container">
                                 <button type="button" className="btn btn-dark padding-button-override"
                                     onClick={doSearch}>Search</button>
+                                <button type="button" className="btn btn-dark padding-button-override"
+                                    onClick={goHome}>Back</button>
                             </div>
                         </div>
                     </form>
@@ -89,6 +90,7 @@ export function Search({ handleSearch, handleEdit }) {
                 <tbody className="table-group-divider" id="add-rows">{jobRows}</tbody>
             </table>)}
             <MessageDialog message={displayError} onHide={() => setDisplayError(null)} />
+            <div style={{ paddingBottom: '2em' }}></div>
         </div>
     )
 }
