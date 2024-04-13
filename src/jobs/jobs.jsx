@@ -43,8 +43,8 @@ export function Jobs(props) {
         }
 
     } else {
-        jobRows.push(<tr key={1} className='fill-row-mobile' id='finalRow'>
-            <td colSpan={7}>
+        jobRows.push(<tr key={1} id='finalRow'>
+            <td colSpan={7} className='fill-row-mobile'>
                 <div className='padding-button'>
                     <Button className='btn btn-lg btn-dark' onClick={addJob}>Add New Job</Button>
                 </div>

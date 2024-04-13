@@ -2,9 +2,4 @@ trevorbond-cs260server-keypair.pem
 node_modules
 dbConfig.json
 keys/260startupkey.pem
-dist/assets/index-Bga3oq6n.css
-dist/assets/index-C-nEv6F6.js
-dist/assets/index-c9H1g4nP.css
-dist/assets/index-Cj_YPbOq.js
-dist/assets/index-Bga3oq6n.css
-dist/assets/index-Cj_YPbOq.js
+dist

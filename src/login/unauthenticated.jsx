@@ -33,7 +33,7 @@ export function Unauthenticated(props) {
     }
 
     return (
-        <div className='app'>
+        <div className='app inner-component-padding'>
             <div className="signin-upper-padding"></div>
             <div className="signin-form">
                 <div style={{ width: 'fit-content', border: 'solid thin black', padding: '2em', borderRadius: '2em' }}>
