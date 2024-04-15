@@ -70,7 +70,12 @@ export default function App() {
     
 
     function handleJobEvent(event) {
-        setEvents([...events, event]);
+        setEvents((events) => {
+            if (!events.some(existingEvent => existingEvent.jobID === event.jobID)) {
+              return [...events, event];
+            }
+            return events;
+          });
     }
 
     function doSearch(job) {
@@ -78,8 +83,22 @@ export default function App() {
         setSearchJob(job);
     }
 
-    function ignoreSharedJob() {
-        setEvents([]);
+    function ignoreSharedJob(jobID) {
+        let foundJob = -1;
+        setEvents((events) => {
+            for (let i = 0; i < events.length; i++) {
+                if (events[i].jobID === jobID) {
+                    console.log(i);
+                    foundJob = i;
+                }
+            }
+            if (foundJob !== -1) {
+                events.splice(foundJob, 1);
+                return events;
+            } else {
+                return events;
+            }
+        });
     }
 
     function createMessageArray() {
@@ -92,7 +111,7 @@ export default function App() {
                         <NavLink to='add-searched'>
                             <Button className='btn btn-dark padding-button-override-small' onClick={() => { doSearch(event); closeModal(); }}>Add</Button>
                         </NavLink>
-                        <Button className='btn btn-dark padding-button-override-small' onClick={ignoreSharedJob} >Ignore</Button>
+                        <Button className='btn btn-dark padding-button-override-small' onClick={() => ignoreSharedJob(event.jobID)} >Ignore</Button>
                     </div>
                 </div>
             );
