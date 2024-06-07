@@ -26,11 +26,6 @@ export default function App() {
     const [showModal, setShowModal] = React.useState(false);
     const [jobNotifier, setJobNotifier] = React.useState(null);
 
-    async function getNotifier() {
-        await initializeJobNotifier();
-        return JobEventNotifier.getInstance();
-    }
-
     const addJob = {
         title: '',
         company: '',
@@ -84,21 +79,10 @@ export default function App() {
     }
 
     function ignoreSharedJob(jobID) {
-        let foundJob = -1;
-        setEvents((events) => {
-            for (let i = 0; i < events.length; i++) {
-                if (events[i].jobID === jobID) {
-                    console.log(i);
-                    foundJob = i;
-                }
-            }
-            if (foundJob !== -1) {
-                events.splice(foundJob, 1);
-                return events;
-            } else {
-                return events;
-            }
+        setEvents((prevEvents) => {
+            return prevEvents.filter(event => event.jobID !== jobID);
         });
+        jobNotifier.removeEvent(jobID);
     }
 
     function createMessageArray() {
@@ -125,6 +109,8 @@ export default function App() {
                 <header>
                     <h1 className="header-padding header-override">JobApp</h1>
                     <div className="header-icons-padding">
+                    <a href="https://www.loom.com/share/5d4a6d27d29547b9ba69127d4e1d8a94?sid=906df101-aa9a-4353-99be-9270926d701d"
+                        target='_blank' style={{paddingRight: '.5em'}}>About</a>
                         {authState === AuthState.Authenticated && (<NavLink className="header-icon" to='/search'>
                             <img src="./icons/search.svg" style={{ filter: 'invert(100%)', width: '30px' }} />
                         </NavLink>)}

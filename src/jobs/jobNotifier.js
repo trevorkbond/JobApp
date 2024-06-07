@@ -28,6 +28,10 @@ class JobEventNotifier {
         this.handlers.push(handler);
     }
 
+    removeEvent(event) {
+        this.events.filter((e) => e.jobID !== event);
+    }
+
     removeHandler(handler) {
         this.handlers.filter((h) => h !== handler);
     }
